@@ -80,14 +80,14 @@
             {% else %}
                 <h3 class="col-12 text-center my-5">Vous avez déjà réservé:</h3>
                 {% for reservation in response.reservations %}
-                    <a href="{{ path('reservation_remove', {'id': reservation.id }) }}" class="col-6 col-sm-4 col-md-3 col-xl-2 p-2 mx-auto text-decoration-none">
+                    <div class="col-6 col-sm-4 col-md-3 col-xl-2 p-2 mx-auto text-decoration-none">
                         <div class="card col-12 p-0">
                             <div class="card-body text-center">
                                 <p>Le {{ reservation.createdAt | date('d-m-Y') }} <br/>à<br/> {{ reservation.createdAt | date('H:i') }}</p>
-                                <button class="btn btn-danger">Supprimer</button>
+                                <a href="{{ path('reservation_remove', {'token': reservation.token }) }}" class="btn btn-danger">Supprimer</a>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 {% endfor %}
             {% endif %}
         {% endif %}

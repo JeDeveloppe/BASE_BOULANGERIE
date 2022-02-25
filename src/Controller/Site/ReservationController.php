@@ -56,6 +56,7 @@ class ReservationController extends AbstractController
         if($nbrReservationMaxParPeriode - count($nbreReservation) > 0){
 
                 $reservation->setUser($user)
+                            ->setToken($this->generateToken())
                             ->setStatut(0) // non payé
                             ->setCreatedAt($date);
 
@@ -80,14 +81,14 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/supprimer-reservation/{id}/", name="reservation_remove")
+     * @Route("/supprimer-reservation/{token}/", name="reservation_remove")
      */
     public function reservationRemove(
         SessionInterface $session,
         EntityManagerInterface $em,
         Security $security,
         ReservationRepository $reservationRepository,
-        $id
+        $token
         ): Response
     {
         $panier = $session->get('panier', []);
@@ -101,7 +102,8 @@ class ReservationController extends AbstractController
         }else{
 
             //on cherche la reservation pour la supprimer
-            $reservation = $reservationRepository->findOneBy(['id' => $id, 'user' => $user]);
+            $reservation = $reservationRepository->findOneBy(['token' => $token, 'user' => $user, 'statut' => 0]);
+
 
             if(!empty($reservation)){
                 $em->remove($reservation);
@@ -117,5 +119,10 @@ class ReservationController extends AbstractController
             }
            
         }
+    }
+
+    public function generateToken()
+    {
+        return rtrim(strtr(base64_encode(random_bytes(100)), '+/', '-_'), '=');
     }
 }
