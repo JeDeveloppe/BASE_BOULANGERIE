@@ -2,16 +2,19 @@
 
 namespace App\Service;
 
-use App\Entity\HorairesEboutique;
-use App\Repository\HorairesEboutiqueRepository;
 use DateTime;
 use DatePeriod;
 use DateInterval;
 use DateTimeZone;
 use DateTimeImmutable;
+use App\Entity\Reservation;
+use App\Entity\HorairesEboutique;
 use App\Repository\ReservationRepository;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
+use App\Repository\HorairesEboutiqueRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class ReservationService
 {
@@ -20,13 +23,119 @@ class ReservationService
         ReservationRepository $reservationRepository,
         Security $security,
         HorairesEboutiqueRepository $horairesEboutiqueRepository,
-        SessionInterface $session
+        SessionInterface $session,
+        FlashBagInterface $flashBag,
+        EntityManagerInterface $em
         )
     {
         $this->reservationRepository = $reservationRepository;
         $this->security = $security;
         $this->horairesEboutiqueRepository = $horairesEboutiqueRepository;
         $this->session = $session;
+        $this->flashBag = $flashBag;
+        $this->entityManager = $em;
+    }
+
+    public function addReservation($horaire)
+    {
+        $panier = $this->session->get('panier', []);
+        $user = $this->security->getUser();
+        
+        //on va mettre tout dans une variable response
+        $response = [];
+
+        //si panier vide ou utilisateur non loguer ou crenau inexacte
+        if(count($panier) < 1 || empty($user)){
+
+            $response['response'] = false;
+            $response['label'] = "warning";
+            $response['message'] = "Vous n'êtes pas identifié(e)";
+            $response['route'] = "app_login";
+
+        }else{
+
+            $reservation = new Reservation();
+
+            //si bien identifie on enregistre et on redirige vers le paiement
+            //décalage pour les réservations
+            $decalageJour = $_ENV['NBRE_DE_JOUR_DECALAGE_RESERVATION'];
+            $date = new DateTimeImmutable('now'.$horaire.':00', new DateTimeZone('Europe/Paris'));
+            $date = $date->add(new DateInterval('P'.$decalageJour.'D'));
+    
+            $nbrReservationMaxParPeriode = $_ENV['NBRE_DE_RESERVATION_MAX_PAR_PERIODE'];
+    
+            //on verifié si le créneau est toujours disponible
+            $nbreReservation = $this->reservationRepository->findBy(['createdAt' => $date]);
+            if($nbrReservationMaxParPeriode - count($nbreReservation) > 0){
+    
+                    $reservation->setUser($user)
+                                ->setToken($this->generateToken())
+                                ->setStatut(0) // non payé
+                                ->setCreatedAt($date);
+    
+                    $this->entityManager->persist($reservation);
+                    $this->entityManager->flush();
+    
+                    //une fois créneau réservé, on recupere le dernier enregistrement est on crée la commande;
+                    //$newDocument = $documentService->creationNouveauDocument('DEV', $reservation);
+    
+                   //a se stade on peut se diriger vers le paiement on a toutes les infos du document dans $newDocument
+    
+                    $response['response'] = true;
+                    $response['route'] = "panier";
+  
+            }else{
+    
+                $response['response'] = false;
+                $response['label'] = "warning";
+                $response['message'] = "Dernier créneau réservé à l'instant, désolé...";
+                $response['route'] = "panier";
+ 
+            }
+        }
+
+        return $response;
+    }
+
+    public function removeReservation(string $token)
+    {
+        $panier = $this->session->get('panier', []);
+        $user = $this->security->getUser();
+
+        //on va mettre tout dans une variable response
+        $response = [];
+
+        //si panier vide ou utilisateur non loguer ou crenau inexacte
+        if(count($panier) < 1 || empty($user)){
+
+            $response['label'] = "warning";
+            $response['message'] = "Vous n'êtes pas identifié(e)";
+            $response['route'] = "app_login";
+
+        }else{
+
+            //on cherche la reservation pour la supprimer
+            $reservation = $this->reservationRepository->findOneBy(['token' => $token, 'user' => $user, 'statut' => 0]);
+
+
+            if(!empty($reservation)){
+                $this->entityManager->remove($reservation);
+                $this->entityManager->flush();
+    
+                $response['label'] = "success";
+                $response['message'] = "Réservation annulée";
+                $response['route'] = "panier";
+
+            }else{
+ 
+                $response['label'] = "warning";
+                $response['message'] = "Réservation non trouvée!";
+                $response['route'] = "accueil";
+         
+            }
+        }
+
+        return $response;
     }
 
     public function calculCreneauxDisponiblePourReservation(int $delai)
@@ -183,5 +292,8 @@ class ReservationService
         return $EstFerie;
     }
    
-
+    public function generateToken()
+    {
+        return rtrim(strtr(base64_encode(random_bytes(100)), '+/', '-_'), '=');
+    }
 }
