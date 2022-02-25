@@ -9,9 +9,11 @@ use DateTimeZone;
 use DateTimeImmutable;
 use App\Entity\Reservation;
 use App\Entity\HorairesEboutique;
+use App\Entity\ReservationDetails;
 use App\Repository\ReservationRepository;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\HorairesEboutiqueRepository;
+use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -25,7 +27,8 @@ class ReservationService
         HorairesEboutiqueRepository $horairesEboutiqueRepository,
         SessionInterface $session,
         FlashBagInterface $flashBag,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        ProduitRepository $produitRepository
         )
     {
         $this->reservationRepository = $reservationRepository;
@@ -34,6 +37,7 @@ class ReservationService
         $this->session = $session;
         $this->flashBag = $flashBag;
         $this->entityManager = $em;
+        $this->produitRepository = $produitRepository;
     }
 
     public function addReservation($horaire)
@@ -75,14 +79,28 @@ class ReservationService
     
                     $this->entityManager->persist($reservation);
                     $this->entityManager->flush();
+
+                    //pour chaque produit dans le panier on met dans le detail réservation
+                    foreach($panier as $id => $quantity){
+                        $reservationDetails = new ReservationDetails();
+                        $produit = $this->produitRepository->find($id);
+
+                        $reservationDetails->setReservation($reservation)
+                                           ->setQuantity($quantity)
+                                           ->setProduit($produit)
+                                           ->setPrice($produit->getPrix())
+                                           ->setTotal($quantity * $produit->getPrix());
+
+                        $this->entityManager->persist($reservationDetails);
+                        $this->entityManager->flush();            
+                    }
     
-                    //une fois créneau réservé, on recupere le dernier enregistrement est on crée la commande;
-                    //$newDocument = $documentService->creationNouveauDocument('DEV', $reservation);
-    
-                   //a se stade on peut se diriger vers le paiement on a toutes les infos du document dans $newDocument
-    
+                    //on supprime le panier
+                    $this->session->remove('panier');
+
+                    //et dit que tout est ok ET on dirige vers le paiement
                     $response['response'] = true;
-                    $response['route'] = "panier";
+                    $response['route'] = "checkout";
   
             }else{
     

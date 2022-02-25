@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +44,16 @@ class Reservation
      * @ORM\Column(type="string", length=255)
      */
     private $token;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ReservationDetails::class, mappedBy="reservation", orphanRemoval=true)
+     */
+    private $reservationDetails;
+
+    public function __construct()
+    {
+        $this->reservationDetails = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -109,6 +121,36 @@ class Reservation
     public function setToken(string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ReservationDetails[]
+     */
+    public function getReservationDetails(): Collection
+    {
+        return $this->reservationDetails;
+    }
+
+    public function addReservationDetail(ReservationDetails $reservationDetail): self
+    {
+        if (!$this->reservationDetails->contains($reservationDetail)) {
+            $this->reservationDetails[] = $reservationDetail;
+            $reservationDetail->setReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservationDetail(ReservationDetails $reservationDetail): self
+    {
+        if ($this->reservationDetails->removeElement($reservationDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($reservationDetail->getReservation() === $this) {
+                $reservationDetail->setReservation(null);
+            }
+        }
 
         return $this;
     }
