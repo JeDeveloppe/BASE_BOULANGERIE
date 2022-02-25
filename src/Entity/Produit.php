@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -60,6 +62,16 @@ class Produit
      * @ORM\Column(type="blob")
      */
     private $imageBlob;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ReservationDetails::class, mappedBy="produit", orphanRemoval=true)
+     */
+    private $reservationDetails;
+
+    public function __construct()
+    {
+        $this->reservationDetails = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -158,6 +170,36 @@ class Produit
     public function setImageBlob($imageBlob): self
     {
         $this->imageBlob = $imageBlob;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ReservationDetails[]
+     */
+    public function getReservationDetails(): Collection
+    {
+        return $this->reservationDetails;
+    }
+
+    public function addReservationDetail(ReservationDetails $reservationDetail): self
+    {
+        if (!$this->reservationDetails->contains($reservationDetail)) {
+            $this->reservationDetails[] = $reservationDetail;
+            $reservationDetail->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservationDetail(ReservationDetails $reservationDetail): self
+    {
+        if ($this->reservationDetails->removeElement($reservationDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($reservationDetail->getProduit() === $this) {
+                $reservationDetail->setProduit(null);
+            }
+        }
 
         return $this;
     }

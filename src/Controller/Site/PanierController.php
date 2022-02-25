@@ -132,5 +132,4 @@ class PanierController extends AbstractController
          $this->addFlash('success', 'Ligne supprimée du panier!');
         return $this->redirectToRoute('panier');
     }
-
 }
