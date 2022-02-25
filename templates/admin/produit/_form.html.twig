@@ -1,0 +1,46 @@
+{{ form_start(form) }}
+
+    <div class="row mb-4">
+        <div class="col-12 form-group text-center my-2">
+            <label>En ligne (case cochée):</label>
+            {{ form_row(form.isOnLine) }}
+        </div>
+        <div class="col-12 form-group text-center my-2">
+            <label>Nom du produit:</label>
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col-12 form-group text-center my-2">
+            <label>Url du produit:</label>
+            {{ form_row(form.slug) }}
+        </div>
+        <div class="col-12 form-group text-center my-2">
+            <label>Prix de vente TTC:</label>
+            {{ form_row(form.prix) }}
+        </div>
+        <div class="col-12 form-group text-center my-2">
+            <label>Description:</label>
+            {{ form_row(form.description) }}
+        </div>
+        <div class="col-12 form-group text-center my-2">
+            <label>Catégorie:</label>
+            {{ form_row(form.categorie) }}
+        </div>
+        <div class="col-12 form-group text-center my-2">
+            <label>L'image:</label>
+            {{ form_row(form.imageBlob) }}
+        </div>
+        {% if image is not null %}
+            <div class="col-12 form-group text-center my-2">
+                <img class="img-admin-edit" src="data:image/png;base64,{{ image }}"/>
+            </div>
+        {% endif %}
+    </div>
+
+    {{ form_rest(form) }}
+
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+        </div>
+    </div>
+{{ form_end(form) }}

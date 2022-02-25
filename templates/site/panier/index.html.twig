@@ -1,0 +1,101 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %} : Panier{% endblock %}
+
+{% block body %}
+
+    <h1 class="col-12 text-center my-5">Panier</h1>
+
+    {% if items | length > 0 %}
+        <div class="col-12">
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                        <th>Qté</th>
+                        <th>Prix total TTC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td><a href="{{ path('panier_remove', {'id': item.produit.id }) }}"><i class="fas fa-trash text-danger"></i></a></td>
+                            <td>{{ item.produit.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.produit.prix * item.quantity }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 col-sm-8 offset-sm-4 col-md-6 offset-md-6 mt-4">
+            <table class="table table-responsive text-center">
+                <thead>
+                    <tr>
+                        <th>Total HT</th>
+                        <th>Taux TVA</th>
+                        <th>T.V.A</th>
+                        <th>Total TTC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ totaux.totalHT }}</td>
+                        <td>{{ totaux.tauxTVA }} %</td>
+                        <td>{{ totaux.totalTVA }}</td>
+                        <td>{{ totaux.totalTTC }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    <div class="row justify-content-start mt-5">
+
+        {# si la boutique est fermée (ou jour ferié) #}
+        {% if response.closed is defined %}
+            JOUR FERIE OU FERMER <p>{{ response.date | date('d-m-Y') }}</p>
+        {% else %}
+            {# on affiche les crénaux disponible si pas de reservation#}
+            {% if response.reservations == false %}
+                <h3 class="col-12 text-center my-5">Choisir un créneau pour retirer votre commande:</h3>
+                {% for key, periode in response.ranges.ranges %}
+                    <a href="{{ path('reservation_add', {'horaire': periode | date('H:i') }) }}" class="col-6 col-sm-4 col-md-3 col-xl-2 p-2 creneauDisponible text-decoration-none">
+                        <div class="card col-12 p-0">
+                            <div class="card-body text-center">
+                                <p>{{ response.jourDelaSemaine }}</p>
+                                <p>Date: {{ periode | date('d-m-Y') }}</p>
+                                <p>{{ periode | date('H:i') }}</p>
+                                {% if response.ranges.rangesCount[key] > 1 %}
+                                    {% set place = "places" %}
+                                {% else %}
+                                    {% set place = "place" %}
+                                {% endif %}
+                                <p class="small text-success">Il reste: {{ response.ranges.rangesCount[key] }} {{ place }}</p>
+                                <p><button class="btn btn-info">Réserver et payer</button></p>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <h3 class="col-12 text-center my-5">Vous avez déjà réservé:</h3>
+                {% for reservation in response.reservations %}
+                    <a href="{{ path('reservation_remove', {'id': reservation.id }) }}" class="col-6 col-sm-4 col-md-3 col-xl-2 p-2 mx-auto text-decoration-none">
+                        <div class="card col-12 p-0">
+                            <div class="card-body text-center">
+                                <p>Le {{ reservation.createdAt | date('d-m-Y') }} <br/>à<br/> {{ reservation.createdAt | date('H:i') }}</p>
+                                <button class="btn btn-danger">Supprimer</button>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+    </div>
+
+
+    {% else %}
+        <p>Panier vide</p>
+    {% endif %}
+{% endblock %}

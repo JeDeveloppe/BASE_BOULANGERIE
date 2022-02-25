@@ -1,0 +1,12 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+    <h1 class="col-12 text-center my-5">Création des infos légales du site</h1>
+
+    <a class="btn btn-primary" href="{{ path('admin_infos_legales_index') }}">Retour à la liste</a>
+
+    <div class="col-9 mx-auto">
+        {{ include('admin/infos_legales/_form.html.twig') }}
+    </div>
+
+{% endblock %}

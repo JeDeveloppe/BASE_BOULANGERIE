@@ -1,0 +1,69 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+    <h1 class="col-12 text-center my-5">Infos légales du site</h1>
+
+        {% for infos_legale in infos_legales %}
+
+            <table class="table table-sm">
+                <tbody>
+                    <tr>
+                        <th>UrlSite</th>
+                        <td>{{ infos_legale.urlSite }}</td>
+                    </tr>
+                    <tr>
+                        <th>NomSociete</th>
+                        <td>{{ infos_legale.nomSociete }}</td>
+                    </tr>
+                    <tr>
+                        <th>SiretSociete</th>
+                        <td>{{ infos_legale.siretSociete }}</td>
+                    </tr>
+                    <tr>
+                        <th>AdresseSociete</th>
+                        <td>{{ infos_legale.adresseSociete }}</td>
+                    </tr>
+                    <tr>
+                        <th>NomWebmaster</th>
+                        <td>{{ infos_legale.nomWebmaster }}</td>
+                    </tr>
+                    <tr>
+                        <th>EmailSite</th>
+                        <td>{{ infos_legale.emailSite }}</td>
+                    </tr>
+                    <tr>
+                        <th>SocieteWebmaster</th>
+                        <td>{{ infos_legale.societeWebmaster }}</td>
+                    </tr>
+                    <tr>
+                        <th>Hebergeur</th>
+                        <td>{{ infos_legale.hebergeur }}</td>
+                    </tr>
+                    <tr>
+                        <th>Multiplicateur TVA:</th>
+                        <td>{{ infos_legale.tva }} soit {{ (infos_legale.tva - 1) * 100 }} %</td>
+                    </tr>
+                    <tr>
+                        <th>Actions</th>
+                        <td>
+                            <a class="btn btn-warning" href="{{ path('admin_infos_legales_edit', {'id': infos_legale.id}) }}">Éditer</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        {% else %}
+            <table class="table table-sm my-5"> 
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            </table>
+
+            {% if infos_legales | length < 1 %}
+                <a class="btn btn-info" href="{{ path('admin_infos_legales_new') }}">Créer</a>
+            {% endif %}
+        {% endfor %}
+
+
+
+{% endblock %}

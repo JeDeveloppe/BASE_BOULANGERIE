@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: horaires{% endblock %}
+
+{% block body %}
+    <h1 class="col-12 text-center my-5">Édition d'une journée</h1>
+
+    {{ include('admin/horaires_eboutique/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+
+    <a href="{{ path('admin_horaires_eboutique_index') }}">back to list</a>
+
+    {# {{ include('horaires_eboutique/_delete_form.html.twig') }} #}
+{% endblock %}

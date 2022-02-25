@@ -1,0 +1,8 @@
+{{ form_start(form) }}
+    <div class="col-5 mx-auto my-5">
+        {{ form_widget(form) }}
+    </div>
+    <div class="col-12 text-center my-3">
+        <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+{{ form_end(form) }}

@@ -1,0 +1,46 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: les produits{% endblock %}
+
+{% block body %}
+
+{% set tva = 1.2 %}
+    <h1 class="col-12 text-center my-5">Liste des produits</h1>
+
+    <a class="btn btn-primary mb-2" href="{{ path('admin_produit_new') }}">Créer un nouveau produit +</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image produit</th>
+                <th>En ligne</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Prix de vente TTC</th>
+                <th>Date (création/ modification)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for key,produit in produits %}
+            <tr>
+                <td><img class="img-admin-liste" src="data:image/png;base64,{{ images[key] }}"/></td>
+                <td>{{ produit.isOnLine ? '<i class="fa-solid fa-earth-europe text-success"></i>' : '<i class="fa-solid fa-earth-europe text-danger"></i>' }}</td>
+                <td>{{ produit.name }}</td>
+                <td>{{ produit.description }}</td>
+                <td>{{ (produit.prix / 100 * infosLegales.0.tva) | number_format(2) }}</td>
+                <td>{{ produit.createdAt ? produit.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>
+                    <!-- <a class="btn btn-info" href="{{ path('admin_produit_show', {'id': produit.id}) }}">show</a> -->
+                    <a class="btn btn-warning" href="{{ path('admin_produit_edit', {'id': produit.id}) }}">Éditer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Pas encore d'enregistrements...</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

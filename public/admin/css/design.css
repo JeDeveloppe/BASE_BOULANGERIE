@@ -1,0 +1,14 @@
+.img-admin-liste {
+  width: 150px;
+  height: 50px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.img-admin-edit {
+  width: 300px;
+  height: 300px;
+  -o-object-fit: none;
+     object-fit: none;
+}
+/*# sourceMappingURL=design.css.map */

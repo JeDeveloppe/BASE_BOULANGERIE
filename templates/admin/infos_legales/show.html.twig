@@ -1,0 +1,52 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+    <h1>InfosLegales</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ infos_legale.id }}</td>
+            </tr>
+            <tr>
+                <th>UrlSite</th>
+                <td>{{ infos_legale.urlSite }}</td>
+            </tr>
+            <tr>
+                <th>NomSociete</th>
+                <td>{{ infos_legale.nomSociete }}</td>
+            </tr>
+            <tr>
+                <th>SiretSociete</th>
+                <td>{{ infos_legale.siretSociete }}</td>
+            </tr>
+            <tr>
+                <th>AdresseSociete</th>
+                <td>{{ infos_legale.adresseSociete }}</td>
+            </tr>
+            <tr>
+                <th>NomWebmaster</th>
+                <td>{{ infos_legale.nomWebmaster }}</td>
+            </tr>
+            <tr>
+                <th>EmailSite</th>
+                <td>{{ infos_legale.emailSite }}</td>
+            </tr>
+            <tr>
+                <th>SocieteWebmaster</th>
+                <td>{{ infos_legale.societeWebmaster }}</td>
+            </tr>
+            <tr>
+                <th>Hebergeur</th>
+                <td>{{ infos_legale.hebergeur }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_infos_legales_index') }}">back to list</a>
+
+    <a href="{{ path('admin_infos_legales_edit', {'id': infos_legale.id}) }}">edit</a>
+
+    {{ include('admin/infos_legales/_delete_form.html.twig') }}
+{% endblock %}

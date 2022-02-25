@@ -1,0 +1,39 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: les catégories{% endblock %}
+
+{% block body %}
+    <h1 class="col-12 text-center my-5">Catégories</h1>
+
+    <a class="btn btn-primary mb-2" href="{{ path('admin_categorie_new') }}">Créer une nouvelle catégorie +</a>
+
+    <table class="table text-center align-middle">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Url</th>
+                <th>Créée le</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td>{{ categorie.name }}</td>
+                <td>{{ categorie.slug }}</td>
+                <td>{{ categorie.createdAt ? categorie.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>
+                    <!-- <a href="{{ path('admin_categorie_show', {'id': categorie.id}) }}">show</a> -->
+                    <a class="btn btn-warning" href="{{ path('admin_categorie_edit', {'id': categorie.id}) }}">Éditer</a>
+                    <a class="btn btn-info" href="{{ path('admin_categorie_produits', {'id': categorie.id}) }}">Voir les produits</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

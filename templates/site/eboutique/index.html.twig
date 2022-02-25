@@ -1,0 +1,45 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %} : Eboutique{% endblock %}
+
+{% block body %}
+
+    {% include "site/eboutique/navEboutique.html.twig" %}
+
+    <div class="row px-lg-5">
+        {% for key, produit in produits %}
+            
+            <div class="col-6 col-sm-4 col-lg-3 px-3 pb-3 h-100">
+                <div class="card">
+                    <div class="div-img-eboutique-card bg-white">
+                        {% if images[key] | length > 0 %}
+                            <img src="data:image/jpeg;base64,{{ images[key] }}"/>
+                        {% else %}
+                            <img src="{{ asset('images/site/default-product-image.png') }}" alt="Image à venir...">
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{ produit.name }}</h5>
+                      <p class="card-text">{{ produit.description }}</p>
+                      <form method="post" action="{{ path('panier_add', {'id': produit.id }) }}" class="d-flex justify-content-center align-items-center">
+                        <div class="form-group me-2">
+                            <select class="form-control-sm col-12" name="qte">
+                                {% for i in 1..10 %}
+                                    <option value="{{ i }}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-sm btn-info">Panier</button>
+                      </form>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+
+        <div class="col-12 mt-5">
+            {{ knp_pagination_render(produits, 'site/eboutique/pagination.html.twig') }}
+        </div>
+
+    </div>
+{% endblock %}

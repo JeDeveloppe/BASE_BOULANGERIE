@@ -1,0 +1,13 @@
+
+<div class="row">
+    <ul class="nav justify-content-center my-5">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('eboutique_accueil') }}">Tous</a>
+        </li>
+        {% for categorie in categories %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('eboutique_categorie_liste_produits', {'slugCategorie': categorie.slug}) }}">{{ categorie.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

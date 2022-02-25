@@ -1,0 +1,7 @@
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="col-12 col-md-6 col-lg-4 alertDiv p-4 bg-{{ label }} alert-dismissible fade show" style="position: absolute; top: 90px;" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}

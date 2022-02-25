@@ -1,0 +1,18 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: Édition d'un produit{% endblock %}
+
+
+{% block body %}
+    <h1 class="col-12 text-center my-5">Édition d'un produit</h1>
+
+    <div class="col-12">
+        <!-- <a class="btn btn-secondary" href="{{ path('admin_produit_index') }}"><i class="fa-solid fa-rotate-left"> Retour à la liste</i></a> -->
+        <a class="btn btn-secondary" href="{{ app.request.headers.get('referer') }}"><i class="fa-solid fa-rotate-left"> Retour à la liste</i></a>
+    </div>
+
+    
+    {{ include('admin/produit/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+
+    <!-- {{ include('admin/produit/_delete_form.html.twig') }} -->
+{% endblock %}

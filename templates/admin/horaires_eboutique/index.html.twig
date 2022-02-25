@@ -1,0 +1,39 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: horaires{% endblock %}
+
+{% block body %}
+    <h1 class="col-12 text-center my-5">Horaires de la Eboutique</h1>
+
+    <table class="table text-center align-middle">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>OuvertureMatin</th>
+                <th>FermetureSoir</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for horaires_eboutique in horaires_eboutiques %}
+            <tr>
+                <td>{{ horaires_eboutique.day }}</td>
+                <td>{{ horaires_eboutique.ouvertureMatin }}</td>
+                <td>{{ horaires_eboutique.fermetureSoir }}</td>
+                <td>
+                    <a class="btn btn-warning" href="{{ path('admin_horaires_eboutique_edit', {'id': horaires_eboutique.id}) }}">Éditer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Pas encore d'enregistrements...</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if horaires_eboutiques | length < 7 %}
+        <a class="btn btn-info" href="{{ path('admin_horaires_eboutique_new') }}">Ajouter une journée</a>
+    {% endif %}
+
+{% endblock %}

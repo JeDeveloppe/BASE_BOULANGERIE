@@ -1,0 +1,41 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: Les produits de la catégorie{% endblock %}
+
+{% block body %}
+    <h1 class="col-12 text-center my-5">Les produits de la catégorie: <span class="small">{{ categorie.name }}</span></h1>
+
+    <a class="btn btn-primary mb-2" href="{{ path('admin_produit_new') }}">Créer un nouveau produit +</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Slug</th>
+                <th>Image</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for key,produit in produits %}
+            <tr>
+                <td>{{ produit.name }}</td>
+                <td>{{ produit.slug }}</td>
+                <td><img class="img-admin-liste" src="data:image/png;base64,{{ images[key] }}"/></td>
+                <td>{{ produit.createdAt ? produit.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>
+                    <!-- <a href="{{ path('admin_produit_show', {'id': produit.id}) }}">show</a> -->
+                    <a class="btn btn-warning" href="{{ path('admin_produit_edit', {'id': produit.id}) }}">Éditer</a>
+                
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
