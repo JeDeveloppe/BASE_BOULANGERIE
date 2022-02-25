@@ -100,7 +100,8 @@ class ReservationService
 
                     //et dit que tout est ok ET on dirige vers le paiement
                     $response['response'] = true;
-                    $response['route'] = "checkout";
+                    $response['route'] = "paiement_checkout";
+                    $response['token'] = $reservation->getToken();
   
             }else{
     

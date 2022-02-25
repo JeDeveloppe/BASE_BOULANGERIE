@@ -69,6 +69,7 @@ class PanierController extends AbstractController
 
         $totalTVA = $totalTTC - $totalHT;
         $totaux['totalTVA'] = $totalTVA;
+        $session->set('totaux', $totaux);
 
         //vérification si jour fermé (fermé ou férié)
         //création des tranches horaires et verification si pas deja de reservation

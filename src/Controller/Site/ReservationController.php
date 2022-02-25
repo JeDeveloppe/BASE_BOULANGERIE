@@ -31,7 +31,7 @@ class ReservationController extends AbstractController
 
         if($response['response'] == true){
 
-            return $this->redirectToRoute($response['route']);
+            return $this->redirectToRoute($response['route'], ['token' => $response['token']]);
 
         }else{
 
