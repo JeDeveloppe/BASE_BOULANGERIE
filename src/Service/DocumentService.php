@@ -32,29 +32,9 @@ class DocumentService
     public function creationNouveauDocument($statut,$reservation)
     {
         
-        $panier = $this->session->get('panier');
-        $panierWithData = [];
+        $totaux = $this->session->get('totaux');
         $user = $this->security->getUser();
 
-        foreach($panier as $id => $quantity){
-            $panierWithData[] = [
-                'produit'  => $this->produitRepository->find($id),
-                'quantity' => $quantity
-            ];
-        }
-        //on fait le total du panier en HT
-        $totalHT = 0;
-
-        foreach($panierWithData as $item){
-            $totalItem = $item['produit']->getPrix() * $item['quantity'];
-            $totalHT += $totalItem;
-        }
-
-        $infoLegales = $this->infosLegalesRepository->findAll();
-        $multiplicateurTva = $infoLegales[0]->getTva();
-
-        $totalTTC = $totalHT * $multiplicateurTva;
-        $totalTVA = $totalTTC - $totalHT;
 
         $now = new \DateTimeImmutable('now');
         $year = $now->format('Y');
@@ -77,12 +57,12 @@ class DocumentService
 
         $document = new Document();
         $document->setToken($this->generateToken())
-                 ->setTotalHT($totalHT)
-                 ->setTotalTVA($totalTVA)
-                 ->setTotalTTC($totalTTC)
+                 ->setTotalHT($totaux['totalHT'])
+                 ->setTotalTVA($totaux['totalTVA'])
+                 ->setTotalTTC($totaux['totalTTC'])
                  ->setReservation($reservation)
                  ->setUser($user)
-                 ->setStatut('DEV')
+                 ->setStatut($statut)
                  ->setCreatedAt($now)
                  ->setNumeroDevis($numero)
                  ->setYear($year);
