@@ -33,7 +33,7 @@ class Reservation
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $statut;
+    private $statutPaiement;
 
     /**
      * @ORM\OneToOne(targetEntity=Document::class, mappedBy="reservation", cascade={"persist", "remove"})
@@ -49,6 +49,11 @@ class Reservation
      * @ORM\OneToMany(targetEntity=ReservationDetails::class, mappedBy="reservation", orphanRemoval=true)
      */
     private $reservationDetails;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $statutReservation;
 
     public function __construct()
     {
@@ -84,14 +89,14 @@ class Reservation
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatutPaiement(): ?string
     {
-        return $this->statut;
+        return $this->statutPaiement;
     }
 
-    public function setStatut(string $statut): self
+    public function setStatutPaiement(string $statutPaiement): self
     {
-        $this->statut = $statut;
+        $this->statuPaiementt = $statutPaiement;
 
         return $this;
     }
@@ -151,6 +156,18 @@ class Reservation
                 $reservationDetail->setReservation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatutReservation(): ?string
+    {
+        return $this->statutReservation;
+    }
+
+    public function setStatutReservation(?string $statutReservation): self
+    {
+        $this->statutReservation = $statutReservation;
 
         return $this;
     }

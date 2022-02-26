@@ -57,7 +57,7 @@ class PaiementController extends AbstractController
             $response['titre'] = 'Erreur';
             $response['message'] = '<p>Il manque un paramètre!</p>';
         }else{
-            $reservation = $reservationRepository->findOneBy(['token' => $token, 'statut' => 'EN_ATTENTE_DE_PAIEMENT']);
+            $reservation = $reservationRepository->findOneBy(['token' => $token, 'statutPaiement' => 'EN_ATTENTE_DE_PAIEMENT']);
 
             //reservation non trouvée (inexistante ou deja payée)
             if(empty($reservation)){
