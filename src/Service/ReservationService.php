@@ -74,7 +74,7 @@ class ReservationService
     
                     $reservation->setUser($user)
                                 ->setToken($this->generateToken())
-                                ->setStatut('EN_ATTENTE_DE_PAIEMENT')
+                                ->setStatutPaiement('EN_ATTENTE_DE_PAIEMENT')
                                 ->setCreatedAt($date);
     
                     $this->entityManager->persist($reservation);
@@ -134,7 +134,7 @@ class ReservationService
         }else{
 
             //on cherche la reservation pour la supprimer
-            $reservation = $this->reservationRepository->findOneBy(['token' => $token, 'user' => $user, 'statut' => 0]);
+            $reservation = $this->reservationRepository->findOneBy(['token' => $token, 'user' => $user, 'statutPaiement' => '']);
 
 
             if(!empty($reservation)){
@@ -159,7 +159,7 @@ class ReservationService
 
     public function updateReservationFacturationOk($reservation)
     {
-        $reservation->setStatut('FACTURE_OK');
+        $reservation->setStatutPaiement('FACTURE_OK');
 
         //on met a jour
         $this->entityManager->persist($reservation);
