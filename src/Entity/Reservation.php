@@ -96,7 +96,7 @@ class Reservation
 
     public function setStatutPaiement(string $statutPaiement): self
     {
-        $this->statuPaiementt = $statutPaiement;
+        $this->statutPaiement = $statutPaiement;
 
         return $this;
     }

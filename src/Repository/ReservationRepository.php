@@ -24,7 +24,7 @@ class ReservationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->where('r.user = :user')
-            ->andWhere('r.statut = :statut')
+            ->andWhere('r.statutPaiement = :statutPaiement')
             ->andWhere('r.createdAt BETWEEN :start AND :end')
             ->setParameter('start', $start)
             ->setParameter('statutPaiement', 'EN_ATTENTE_DE_PAIEMENT')

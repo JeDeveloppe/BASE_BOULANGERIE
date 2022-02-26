@@ -67,9 +67,11 @@ class PaiementController extends AbstractController
             }else{
                 //tout est bon on cré la facture
                 $newDocument = $documentService->creationNouveauDocument('FAC',$reservation);
-
+                //on met a jour la reservation
                 $reservationService->updateReservationFacturationOk($reservation);
 
+                $response['titre'] = 'Paiement accepté';
+                $response['message'] = 'Merci pour votre commande!';
             }
         }
 

@@ -74,8 +74,10 @@ class ReservationService
     
                     $reservation->setUser($user)
                                 ->setToken($this->generateToken())
-                                ->setStatutPaiement('EN_ATTENTE_DE_PAIEMENT')
+                                ->setStatutPaiement("EN_ATTENTE_DE_PAIEMENT")
                                 ->setCreatedAt($date);
+
+                          
     
                     $this->entityManager->persist($reservation);
                     $this->entityManager->flush();

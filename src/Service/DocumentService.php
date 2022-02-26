@@ -41,7 +41,7 @@ class DocumentService
         $m = $now->format('m');
 
         //on cherche le dernier document avec le statut demander de l'annee demandee
-        $lastDocument = $this->documentRepository->findBy(['statutPaiement' => $statut, 'year' => $year],['id' => 'DESC'],1);
+        $lastDocument = $this->documentRepository->findBy(['statut' => $statut, 'year' => $year],['id' => 'DESC'],1);
         
         //format document: AAAAMM00000  soit 99999 possible
         //pas encore d'enregistrement
@@ -62,7 +62,7 @@ class DocumentService
                  ->setTotalTTC($totaux['totalTTC'])
                  ->setReservation($reservation)
                  ->setUser($user)
-                 ->setStatutPaiement($statut)
+                 ->setStatut($statut)
                  ->setCreatedAt($now)
                  ->setNumeroDevis('FAC_DIRECTE')
                  ->setNumeroFacture($numero)
