@@ -2,19 +2,20 @@
 
 namespace App\Controller\Site;
 
-use App\Repository\ReservationRepository;
-use App\Service\DocumentService;
-use App\Service\ReservationService;
-use App\Service\StripeService;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use App\Service\StripeService;
+use App\Service\DocumentService;
+use App\Service\ReservationService;
+use App\Repository\ReservationRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PaiementController extends AbstractController
 {
@@ -66,7 +67,7 @@ class PaiementController extends AbstractController
 
             }else{
                 //tout est bon on cré la facture
-                $newDocument = $documentService->creationNouveauDocument('FAC',$reservation);
+                $documentService->creationNouveauDocument('FAC',$reservation);
                 //on met a jour la reservation
                 $reservationService->updateReservationFacturationOk($reservation);
 
@@ -81,12 +82,23 @@ class PaiementController extends AbstractController
     }
 
     /**
-     * @Route("/paiement/cancel", name="paiement_cancel")
+     * @Route("/paiement/cancel/{token}", name="paiement_cancel")
      */
-    public function paiementCancel(): Response
+    public function paiementCancel(Security $security, $token, ReservationRepository $reservationRepository): Response
     {
-        return $this->render('site/paiement/index.html.twig', [
-            'controller_name' => 'PaiementController',
-        ]);
+        $user = $security->getUser();
+
+        $reservation = $reservationRepository->findOneBy(['user' => $user, 'token' => $token, 'statutPaiement' => 'EN_ATTENTE_DE_PAIEMENT']);
+
+        if(empty($reservation)){
+
+            throw new NotFoundHttpException("Page not found");
+            
+        }else{
+
+            return $this->render('site/paiement/cancel.html.twig', [
+                'reservation' => $reservation,
+            ]);
+        }
     }
 }

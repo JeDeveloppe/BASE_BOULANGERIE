@@ -70,11 +70,13 @@ class ReservationService
     
             //on verifié si le créneau est toujours disponible
             $nbreReservation = $this->reservationRepository->findBy(['createdAt' => $date]);
+
             if($nbrReservationMaxParPeriode - count($nbreReservation) > 0){
     
                     $reservation->setUser($user)
                                 ->setToken($this->generateToken())
                                 ->setStatutPaiement("EN_ATTENTE_DE_PAIEMENT")
+                                ->setStatutReservation("PAS_EMPORTEE")
                                 ->setCreatedAt($date);
 
                           

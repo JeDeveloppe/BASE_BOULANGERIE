@@ -1,9 +1,21 @@
 {% extends 'site/base.html.twig' %}
 
-{% block title %} : Paiement{% endblock %}
+{% block title %} : Eboutique{% endblock %}
 
 {% block body %}
 
-    <h1 class="col-12 text-center my-5">CANCEL</h1>
+    <div class="row px-lg-5">
+      
+        <h1 class="col-12 text-center my-5">Paiement annulé ou refusé!</h1>
 
+        <div class="col-12 text-center my-5">
+            Le paiement ne s'est pas bien passé!
+        </div>
+
+        <div class="col-11 col-md-8 col-lg-4 mx-auto text-center">
+            <a href="{{ path('paiement_checkout', {'token': reservation.token }) }}" class="btn btn-info my-3">Retour au paiement</a><br/>
+            ou<br/>
+            <a href="{{ path('reservation_remove', {'token': reservation.token }) }}" class="btn btn-danger my-3">Supprimer la réservation</a>
+        </div>
+    </div>
 {% endblock %}

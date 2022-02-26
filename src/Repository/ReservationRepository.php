@@ -34,6 +34,33 @@ class ReservationRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findOldReservationsNonEmportees($dateMinuit)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.statutReservation = :statutReservation')
+            ->andWhere('r.createdAt <= :date')
+            ->orderBy('r.createdAt','ASC')
+            ->setParameter('statutReservation', 'PAS_EMPORTEE')
+            ->setParameter('date', $dateMinuit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findReservations($start,$end)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.createdAt BETWEEN :start AND :end')
+            ->andWhere('r.statutPaiement = :statutPaiement')
+            ->orderBy('r.createdAt','ASC')
+            ->setParameter('statutPaiement', 'FACTURE_OK')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
 
     /*

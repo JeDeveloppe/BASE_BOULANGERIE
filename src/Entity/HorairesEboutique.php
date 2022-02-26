@@ -25,15 +25,15 @@ class HorairesEboutique
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Regex("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/")
-     * @Assert\LessThan(propertyPath="fermetureSoir")
+     * @Assert\Regex("/^((?:2[0-3]|[01][0-9]):[0-5][0-9])|FERMER$/")
+     * @Assert\LessThanOrEqual(propertyPath="fermetureSoir")
      * @Assert\NotBlank
      */
     private $ouvertureMatin;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Regex("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/")
+     * @Assert\Regex("/^((?:2[0-3]|[01][0-9]):[0-5][0-9])|FERMER$/")
      * @Assert\NotBlank
      */
     private $fermetureSoir;

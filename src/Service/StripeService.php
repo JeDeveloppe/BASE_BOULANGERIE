@@ -42,7 +42,7 @@ class StripeService
               'customer_email' => $user->getEmail(),
               'mode' => 'payment',
               'success_url' => $this->route->generate('paiement_success' , ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL),
-              'cancel_url' => $this->route->generate('paiement_cancel' , [], UrlGeneratorInterface::ABSOLUTE_URL),
+              'cancel_url' => $this->route->generate('paiement_cancel' , ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL),
             ]);
           
             $response['route'] = $checkout_session->url;
