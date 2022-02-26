@@ -22,7 +22,7 @@ class HorairesEboutiqueController extends AbstractController
     public function index(HorairesEboutiqueRepository $horairesEboutiqueRepository): Response
     {
         return $this->render('admin/horaires_eboutique/index.html.twig', [
-            'horaires_eboutiques' => $horairesEboutiqueRepository->findAll(),
+            'horaires_eboutiques' => $horairesEboutiqueRepository->findBy([], ['day' => 'ASC']),
         ]);
     }
 

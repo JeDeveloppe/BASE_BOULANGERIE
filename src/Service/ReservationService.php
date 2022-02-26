@@ -74,7 +74,7 @@ class ReservationService
     
                     $reservation->setUser($user)
                                 ->setToken($this->generateToken())
-                                ->setStatut(0) // non payé
+                                ->setStatut('EN_ATTENTE_DE_PAIEMENT')
                                 ->setCreatedAt($date);
     
                     $this->entityManager->persist($reservation);
@@ -155,6 +155,16 @@ class ReservationService
         }
 
         return $response;
+    }
+
+    public function updateReservationFacturationOk($reservation)
+    {
+        $reservation->setStatut('FACTURE_OK');
+
+        //on met a jour
+        $this->entityManager->persist($reservation);
+        $this->entityManager->flush();
+
     }
 
     public function calculCreneauxDisponiblePourReservation(int $delai)

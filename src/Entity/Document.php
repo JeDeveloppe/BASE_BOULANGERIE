@@ -185,7 +185,7 @@ class Document
         return $this->numeroDevis;
     }
 
-    public function setNumeroDevis(int $numeroDevis): self
+    public function setNumeroDevis($numeroDevis): self
     {
         $this->numeroDevis = $numeroDevis;
 

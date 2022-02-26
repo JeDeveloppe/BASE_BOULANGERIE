@@ -1,9 +1,15 @@
 {% extends 'site/base.html.twig' %}
 
-{% block title %} : Paiement{% endblock %}
+{% block title %} : Eboutique{% endblock %}
 
 {% block body %}
 
-    <h1 class="col-12 text-center my-5">SUCCESS</h1>
+    <div class="row px-lg-5">
+      
+        <h1 class="col-12 text-center my-5">{{ response.titre }}</h1>
 
+        <div class="col-12 text-center">
+            {{ response.message }}
+        </div>
+    </div>
 {% endblock %}

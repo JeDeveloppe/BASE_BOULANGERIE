@@ -49,7 +49,7 @@ class DocumentService
             $numero = $year.$m.'00001';
         }else{
             foreach($lastDocument as $doc){
-                $numero = $doc->getNumeroDevis();
+                $numero = $doc->getNumeroFacture();
                 $numero += 1;   //on incremente de 1
             }
         
@@ -64,7 +64,8 @@ class DocumentService
                  ->setUser($user)
                  ->setStatut($statut)
                  ->setCreatedAt($now)
-                 ->setNumeroDevis($numero)
+                 ->setNumeroDevis('FAC_DIRECTE')
+                 ->setNumeroFacture($numero)
                  ->setYear($year);
 
         
@@ -76,9 +77,7 @@ class DocumentService
 
     public function generateToken()
     {
-        return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
+        return rtrim(strtr(base64_encode(random_bytes(100)), '+/', '-_'), '=');
     }
 
-
- 
 }

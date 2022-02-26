@@ -27,7 +27,7 @@ class ReservationRepository extends ServiceEntityRepository
             ->andWhere('r.statut = :statut')
             ->andWhere('r.createdAt BETWEEN :start AND :end')
             ->setParameter('start', $start)
-            ->setParameter('statut', 0) // 0 = pas encore payer
+            ->setParameter('statut', 'EN_ATTENTE_DE_PAIEMENT')
             ->setParameter('end', $end)
             ->setParameter('user', $user)
             ->getQuery()

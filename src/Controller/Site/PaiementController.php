@@ -4,6 +4,8 @@ namespace App\Controller\Site;
 
 use App\Repository\ReservationRepository;
 use App\Service\DocumentService;
+use App\Service\ReservationService;
+use App\Service\StripeService;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,33 +31,11 @@ class PaiementController extends AbstractController
     /**
      * @Route("/paiement/checkout/{token}", name="paiement_checkout")
      */
-    public function checkout(Request $request, SessionInterface $session, Security $security, $token)
+    public function checkout(StripeService $stripeService, $token)
     {
-        // This is your test secret API key.
-        Stripe::setApiKey($_ENV['STRIPE_KEY']);
-        
-        $user = $security->getUser();
-        $totaux = $session->get('totaux');
+        $response = $stripeService->checkout($token);
 
-        $checkout_session = Session::create([
-            'line_items' => [[
-              'price_data' => [
-                'currency' => 'eur',
-                'product_data' => [
-                  'name' => 'T-shirt',
-                ],
-                'unit_amount' => $totaux['totalTTC'],
-              ],
-              'quantity' => 1,
-            ]],
-            'customer_email' => $user->getEmail(),
-            'mode' => 'payment',
-            'success_url' => $this->generateUrl('paiement_success' , ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL),
-            'cancel_url' => $this->generateUrl('paiement_cancel' , [], UrlGeneratorInterface::ABSOLUTE_URL),
-          ]);
-        
-        //return $response->withHeader('Location', $session->url)->withStatus(303);
-        return $this->redirect($checkout_session->url,303);
+        return $this->redirect($response['route'],$response['code']);
     }
 
     /**
@@ -63,6 +43,7 @@ class PaiementController extends AbstractController
      */
     public function paiementSucess(
         DocumentService $documentService,
+        ReservationService $reservationService,
         $token,
         ReservationRepository $reservationRepository
         ): Response
@@ -70,22 +51,31 @@ class PaiementController extends AbstractController
         //ici on verifie qu'il y a un token et qu'il est dans la base non paye
         //si ok on met a jour la bdd => reservation a 1
         //on cree le document avec incrementation
-   
+        $response = [];
+
         if(empty($token)){
-            dd('STOP A CREER');
+            $response['titre'] = 'Erreur';
+            $response['message'] = '<p>Il manque un paramètre!</p>';
         }else{
-            $reservation = $reservationRepository->findOneBy(['token' => $token, 'statut' => 0]);
+            $reservation = $reservationRepository->findOneBy(['token' => $token, 'statut' => 'EN_ATTENTE_DE_PAIEMENT']);
 
-            $newDocument = $documentService->creationNouveauDocument('FAC',$reservation);
+            //reservation non trouvée (inexistante ou deja payée)
+            if(empty($reservation)){
+                $response['titre'] = 'Erreur';
+                $response['message'] = 'Réservation inexistante ou déja payée!';
 
-            dd($newDocument);
-            //reste à mettre à jour la reservation avec le statut payer
-            
-            return $this->render('site/paiement/index.html.twig', [
-                'controller_name' => 'PaiementController',
-            ]);
+            }else{
+                //tout est bon on cré la facture
+                $newDocument = $documentService->creationNouveauDocument('FAC',$reservation);
 
+                $reservationService->updateReservationFacturationOk($reservation);
+
+            }
         }
+
+        return $this->render('site/paiement/success.html.twig', [
+            'response' => $response,
+        ]);
     }
 
     /**
