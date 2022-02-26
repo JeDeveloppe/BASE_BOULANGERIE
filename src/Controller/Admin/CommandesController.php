@@ -28,7 +28,7 @@ class CommandesController extends AbstractController
     public function listeDesCommandesClientDuJour(ReservationRepository $reservationRepository, ReservationDetailsRepository $reservationDetailsRepository): Response
     {
 
-        $reservations = $reservationRepository->findBy(['statutPaiement' => 'FACTURE_OK']);
+        $reservations = $reservationRepository->findBy(['statutPaiement' => 'FACTURE_OK'], ['createdAt' => 'ASC']);
 
         $detailsReservations = [];
 

@@ -33,7 +33,7 @@ class StripeService
                 'price_data' => [
                   'currency' => 'eur',
                   'product_data' => [
-                    'name' => 'T-shirt',
+                    'name' => $_ENV['STRIPE_NAME_BOUTIQUE_IN_CHECKOUTPAGE'],
                   ],
                   'unit_amount' => $totaux['totalTTC'],
                 ],
