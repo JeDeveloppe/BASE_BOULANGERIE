@@ -5,13 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>ADMINISTRATION {% block title %}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <!-- css thme bootstrap -->
         <link rel="stylesheet" href="{{ asset('admin/css/theme-bootstrap.css') }}">
         <!-- css admin du site -->
         <link rel="stylesheet" href="{{ asset('admin/css/design.css') }}">
         <script src="https://kit.fontawesome.com/440b1b0c24.js" crossorigin="anonymous"></script>
         
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
@@ -24,7 +24,7 @@
 
         {% include "admin/flashMessage.html.twig" %}
 
-        <div class="container">
+        <div class="container mb-5">
             {% block body %}{% endblock %}
         </div>
     </body>
