@@ -1,19 +1,54 @@
 {% extends 'site/base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}: Inscription{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <h1 class="col-12 text-center my-5">Inscription</h1>
+
+
+{% set formErrors = registrationForm.vars.errors.form.getErrors(true) %}
+                                    
+    {# If there are errors in the form, display them in this unorganized list #}
+    {% if formErrors|length %}
+        <ul class="col-11 col-md-9 col-lg-6 mx-auto list-unstyled text-danger">
+            {% for error in formErrors %}
+                <li><span class="badge bg-danger">Erreur</span> {{ error.message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.name) }}
-        {{ form_row(registrationForm.phone) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        <div class="col-12 col-md-9 col-lg-6 mx-auto d-flex flex-wrap mb-4">
+            <div class="col-12 col-md-6 form-group text-center my-2">
+                <label>Votre nom:</label>
+                {{ form_row(registrationForm.name) }}
+            </div>
+            <div class="col-12 col-md-6 form-group text-center my-2">
+                <label>Téléphone:</label>
+                {{ form_row(registrationForm.phone) }}
+            </div>
+            <div class="col-12 col-md-6 form-group text-center my-2">
+                <label>Adresse email (identifiant):</label>
+                {{ form_row(registrationForm.email) }}
+            </div>
+            <div class="col-12 col-md-6 form-group text-center my-2">
+                <label>Mot de passe:</label>
+                {{ form_row(registrationForm.plainPassword) }}
+            </div>
+            <div class="col-12 form-group text-center my-3">
+                <label>J'accepte les conditions d'utilisation:</label>
+                <input type="checkbox" name="accept" required />
+            </div>
 
-        <button type="submit" class="btn btn-success">Register</button>
+            {{ form_rest(registrationForm) }}
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-success">S'inscrire</button>
+            </div>
+        </div>
+
+     
     {{ form_end(registrationForm) }}
+
+
+
 {% endblock %}

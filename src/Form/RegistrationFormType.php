@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,17 +20,21 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
+            ->add('email', EmailType::class, [
+                'label' => false,
+                'error_bubbling' => true,
             ])
-            ->add('name')
+
+            ->add('name', TextType::class, [
+                'label' => false,
+                'error_bubbling' => true,
+                'attr' => [
+                    'placeholder' => 'Nom affiché dans vos réservations'
+                ]
+            ])
             ->add('phone', TelType::class, [
+                'label' => false,
+                'error_bubbling' => true,
                 'attr' => [
                     'placeholder' => 'Format: xx.xx.xx.xx.xx'
                 ]
@@ -37,21 +42,22 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label' => false,
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'error_bubbling' => true,
+                'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'Minimum 8 caractères'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Merci de saisir un mot de passe.',
                     ]),
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'min' => 8,
+                        'minMessage' => 'Mot de passe trop court.',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

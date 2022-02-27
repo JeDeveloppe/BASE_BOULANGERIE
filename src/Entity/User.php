@@ -27,6 +27,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank
+     * @Assert\Email(
+     *     message = "Cet email: '{{ value }}' n'est pas valide."
+     * )
      */
     private $email;
 
@@ -54,13 +57,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 30,
+     *      minMessage = "Votre nom doit faire au minimum {{ limit }} charactères",
+     *      maxMessage = "Votre nom doit faire au maximum {{ limit }} charactères"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=15)
      * @Assert\NotBlank
-     * @Assert\Regex("/^0[3,6,7](.\d{2}){4}$/")
+     * @Assert\Regex("/^0[3,6,7](.\d{2}){4}$/", message="Format du téléphone.")
      */
     private $phone;
 
