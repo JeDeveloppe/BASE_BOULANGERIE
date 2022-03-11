@@ -3,7 +3,7 @@
     <a href="#" class="small text-decoration-none"><i class="fas fa-caret-up"> Retour en haut</i></a>
 </div>
 <!-- START Bootstrap-Cookie-Alert -->
-<div class="col-12 cookiealert text-center p-1" role="alert">
+<div class="col-12 cookiealert text-center p-1" role="alert" id="cookiePopup">
     <div class="col-12">
         <b>Vous aimez les cookies?</b> 🥐 <br />
         Nous les utilisons pour faire fonctionner le site correctement.
@@ -12,7 +12,7 @@
         </a>
     </div>
     <div class="col-12">
-        <button type="button" class="btn btn-primary btn-sm acceptcookies">
+        <button type="button" class="btn btn-primary btn-sm" id="acceptCookie">
             Ok
         </button>
     </div>
@@ -27,7 +27,7 @@
         <a href=""><img class="social_logo" src="{{ asset('images/reseaux_sociaux/logo-instagram.png') }}"
                 alt="Suivez nous sur Instagram !"></a>
     </section>
-    <section class="col-12 d-flex flex-wrap px-2 pt-4">
+    <section class="col-12 d-flex flex-wrap px-2 pt-4 bg-primary text-white">
         <div class="col-12 col-sm-6 col-md-4">
             <h3>Boulangerie K</h3>
             <p>13 rue du four</p>
@@ -81,6 +81,3 @@
         <div class="small">Version 1.00</div>
     </section>
 </footer>
-
-
-<!-- Footer -->

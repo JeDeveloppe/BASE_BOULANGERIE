@@ -35,6 +35,7 @@ class SiteController extends AbstractController
     {
         $categories = $categorieRepository->findAll();
         $donnees = $produitRepository->findBy(['isOnLine' => true]);
+ 
 
         $produits = $paginator->paginate(
             $donnees, // Requête contenant les données à paginer (ici nos articles)
@@ -42,7 +43,6 @@ class SiteController extends AbstractController
             12 // Nombre de résultats par page
         );
 
-        //on va stocker les images
         $images = [];
         foreach ($produits as $key => $produit) {
             $images[$key] = stream_get_contents($produit->getImageBlob());
