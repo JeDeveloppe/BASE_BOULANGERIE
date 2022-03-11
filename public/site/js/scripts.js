@@ -1,2 +1,64 @@
-$(document).ready(function () { $('[data-toggle="tooltip"]').tooltip() }),
-    function () { "use strict"; var e = document.querySelector(".cookiealert"), t = document.querySelector(".acceptcookies"); e && (e.offsetHeight, function (e) { for (var t = e + "=", o = decodeURIComponent(document.cookie).split(";"), c = 0; c < o.length; c++) { for (var n = o[c]; " " === n.charAt(0);)n = n.substring(1); if (0 === n.indexOf(t)) return n.substring(t.length, n.length) } return "" }("acceptCookies") || e.classList.add("show"), t.addEventListener("click", function () { !function (e, t, o) { var c = new Date; c.setTime(c.getTime() + 24 * o * 60 * 60 * 1e3); var n = "expires=" + c.toUTCString(); document.cookie = e + "=" + t + ";" + n + ";path=/" }("acceptCookies", !0, 1), e.classList.remove("show"), window.dispatchEvent(new Event("cookieAlertAccept")) })) }();
+window.addEventListener("load", function () {
+    // set cookie according to you
+    var cookieName= "RefaitesVosJeux";
+    var cookieValue="AcceptCookies";
+    var cookieExpireDays= 365;
+
+    // when users click accept button
+    let acceptCookie= document.getElementById("acceptCookie");
+    acceptCookie.onclick= function(){
+        createCookie(cookieName, cookieValue, cookieExpireDays);
+    }
+
+    // function to set cookie in web browser
+    let createCookie= function(cookieName, cookieValue, cookieExpireDays){
+    let currentDate = new Date();
+    currentDate.setTime(currentDate.getTime() + (cookieExpireDays*24*60*60*1000));
+    let expires = "expires=" + currentDate.toGMTString();
+    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+    if(document.cookie){
+        document.getElementById("cookiePopup").style.display = "none";
+    }else{
+        alert("Unable to set cookie. Please allow all cookies site from cookie setting of your browser");
+    }
+
+    }
+
+    // get cookie from the web browser
+    let getCookie= function(cookieName){
+    let name = cookieName + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+    }
+    // check cookie is set or not
+    let checkCookie= function(){
+        let check=getCookie(cookieName);
+        if(check==""){
+            document.getElementById("cookiePopup").style.display = "block";
+        }else{
+            
+            document.getElementById("cookiePopup").style.display = "none";
+        }
+    }
+    checkCookie()
+});
+
+window.onscroll = function () {
+    if (document.documentElement.scrollTop > 80) {
+        document.getElementById("navbar").classList.remove("py-5");
+        document.getElementById("navbar").classList.add("py-1");
+    } else {
+        document.getElementById("navbar").classList.add("py-5");
+        document.getElementById("navbar").classList.remove("py-1");
+    }
+};

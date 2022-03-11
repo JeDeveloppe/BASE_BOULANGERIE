@@ -14,26 +14,17 @@
 
 .cookiealert {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
   margin: 0 !important;
   z-index: 90;
-  opacity: 0;
-  visibility: hidden;
   border-radius: 0;
-  transform: translateY(100%);
   transition: all 10ms ease-out;
   color: #ecf0f1;
-  background-color: #f89406;
+  background-color: #495057;
 }
 
-.cookiealert.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0%);
-  transition-delay: 1000ms;
-}
 .cookiealert a {
   text-decoration: underline;
 }
@@ -83,3 +74,15 @@
   
   }
 } 
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#navbar{
+  width: 100%;
+  transition: 0.4s;
+  top: 0;
+}

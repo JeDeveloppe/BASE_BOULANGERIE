@@ -17,29 +17,16 @@
 
 .cookiealert {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
   margin: 0 !important;
   z-index: 90;
-  opacity: 0;
-  visibility: hidden;
   border-radius: 0;
-  -webkit-transform: translateY(100%);
-          transform: translateY(100%);
   -webkit-transition: all 10ms ease-out;
   transition: all 10ms ease-out;
   color: #ecf0f1;
-  background-color: #f89406;
-}
-
-.cookiealert.show {
-  opacity: 1;
-  visibility: visible;
-  -webkit-transform: translateY(0%);
-          transform: translateY(0%);
-  -webkit-transition-delay: 1000ms;
-          transition-delay: 1000ms;
+  background-color: #495057;
 }
 
 .cookiealert a {
@@ -89,5 +76,19 @@
   scale: 0.9;
   -webkit-transition: 200ms ease-in;
   transition: 200ms ease-in;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#navbar {
+  width: 100%;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  top: 0;
 }
 /*# sourceMappingURL=design.css.map */

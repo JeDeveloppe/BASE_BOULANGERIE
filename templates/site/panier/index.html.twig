@@ -50,7 +50,7 @@
             </table>
         </div>
 
-    <div class="row justify-content-start mt-5">
+    <div class="row justify-content-start mt-5 bg-primary">
 
         {# si la boutique est fermée (ou jour ferié) #}
         {% if response.closed is defined %}
@@ -58,7 +58,7 @@
         {% else %}
             {# on affiche les crénaux disponible si pas de reservation#}
             {% if response.reservations == false %}
-                <h3 class="col-12 text-center my-5">Choisir un créneau pour retirer votre commande:</h3>
+                <h3 class="col-12 text-center my-5 text-white">Choisir un créneau pour retirer votre commande:</h3>
                 {% for key, periode in response.ranges.ranges %}
                     <a href="{{ path('reservation_add', {'horaire': periode | date('H:i') }) }}" class="col-6 col-sm-4 col-md-3 col-xl-2 p-2 creneauDisponible text-decoration-none">
                         <div class="card col-12 p-0">
