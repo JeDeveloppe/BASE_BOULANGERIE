@@ -5,6 +5,7 @@ namespace App\Controller\Site;
 use App\Service\CallApiService;
 use App\Repository\ProduitRepository;
 use App\Repository\CategorieRepository;
+use App\Repository\InfosLegalesRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -99,6 +100,28 @@ class SiteController extends AbstractController
         
         return $this->render('site/personnel/index.html.twig', [
             'personnes' => $datas['results'],
+        ]);
+    }
+
+      /**
+     * @Route("/conditions-generale-de-vente", name="cgv")
+     */
+    public function cgv(InfosLegalesRepository $infosLegalesRepository): Response
+    {
+
+        return $this->render('site/informations/cgv.html.twig', [
+            'informationsLegales' =>  $infosLegalesRepository->findAll()
+        ]);
+    }
+
+    /**
+     * @Route("/mentions-legales", name="mentions-legales")
+     */
+    public function mentionsLegales(InfosLegalesRepository $infosLegalesRepository): Response
+    {
+
+        return $this->render('site/informations/mentions_legales.html.twig', [
+            'informationsLegales' =>  $infosLegalesRepository->findAll()
         ]);
     }
 }
