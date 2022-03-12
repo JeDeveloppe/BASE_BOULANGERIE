@@ -19,6 +19,20 @@ class ReservationDetailsRepository extends ServiceEntityRepository
         parent::__construct($registry, ReservationDetails::class);
     }
 
+
+    public function findCountGroupByProduit($reservation): array
+    {
+        $qb = $this->createQueryBuilder('r');
+        return $qb
+        ->select('COUNT(r.produit)')
+        ->where($qb->expr()->in('r.id', ':reservation'))
+        ->setParameter('reservation', $reservation)
+        ->getQuery()
+        ->getResult()
+
+    ;
+    }
+
     // /**
     //  * @return ReservationDetails[] Returns an array of ReservationDetails objects
     //  */

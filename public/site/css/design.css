@@ -91,4 +91,13 @@ body {
   transition: 0.4s;
   top: 0;
 }
+
+#sectionIndex {
+  width: 100%;
+  min-height: 80vh;
+  background-image: url(/images/site/presentation-boulangerie.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 /*# sourceMappingURL=design.css.map */

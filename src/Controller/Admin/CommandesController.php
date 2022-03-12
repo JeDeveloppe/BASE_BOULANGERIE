@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Repository\HorairesEboutiqueRepository;
+use App\Repository\ProduitRepository;
 use DateTimeZone;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -91,7 +92,7 @@ class CommandesController extends AbstractController
         }
 
         return $this->render('admin/commandes/commandes_du_jour.html.twig', [
-            'oldReservations'         =>  $oldReservations,
+            'oldReservations'        =>  $oldReservations,
             'reservations'           => $reservations,
             'oldDetailsReservations' => $detailsOldReservations,
             'detailsReservations'    => $detailsReservations
@@ -133,4 +134,5 @@ class CommandesController extends AbstractController
 
         return $this->redirectToRoute('admin_commandes_du_jour', ['_fragment' => $reservation->getId()], Response::HTTP_SEE_OTHER);
     }
+
 }
