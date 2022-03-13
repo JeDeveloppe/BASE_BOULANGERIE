@@ -21,7 +21,7 @@
                     <div class="card-body">
                       <h5 class="card-title">{{ produit.name }}</h5>
                       <p class="card-text">{{ produit.description }}</p>
-                      <p class="card-text">Prix: {{ produit.prix }} TTC</p>
+                      <p class="card-text">Prix: {{ (produit.prix * infosLegales.0.tva) | number_format(2) }} TTC</p>
                       <form method="post" action="{{ path('panier_add', {'id': produit.id }) }}" class="d-flex justify-content-center align-items-center">
                         <div class="form-group me-2">
                             <select class="form-control-sm col-12" name="qte">

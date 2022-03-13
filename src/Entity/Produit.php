@@ -6,8 +6,6 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -33,7 +31,8 @@ class Produit
     private $slug;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @Assert\Regex("/^\d+(\.\d+)?/")
      */
     private $prix;
 
@@ -102,12 +101,12 @@ class Produit
         return $this;
     }
 
-    public function getPrix(): ?int
+    public function getPrix(): ?string
     {
         return $this->prix;
     }
 
-    public function setPrix(int $prix): self
+    public function setPrix(string $prix): self
     {
         $this->prix = $prix;
 
@@ -203,4 +202,5 @@ class Produit
 
         return $this;
     }
+
 }

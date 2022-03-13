@@ -9,14 +9,14 @@
 
     <a class="btn btn-primary mb-2" href="{{ path('admin_produit_new') }}">Créer un nouveau produit +</a>
 
-    <table class="table">
+    <table class="table text-center align-middle">
         <thead>
             <tr>
                 <th>Image produit</th>
                 <th>En ligne</th>
                 <th>Nom</th>
                 <th>Description</th>
-                <th>Prix de vente TTC</th>
+                <th>Prix de vente TTC / HT</th>
                 <th>Date (création/ modification)</th>
                 <th>Actions</th>
             </tr>
@@ -28,7 +28,7 @@
                 <td>{{ produit.isOnLine ? '<i class="fa-solid fa-earth-europe text-success"></i>' : '<i class="fa-solid fa-earth-europe text-danger"></i>' }}</td>
                 <td>{{ produit.name }}</td>
                 <td>{{ produit.description }}</td>
-                <td>{{ (produit.prix / 100 * infosLegales.0.tva) | number_format(2) }}</td>
+                <td>{{ (produit.prix * infosLegales.0.tva) | number_format(2) }} / {{ produit.prix | number_format(2) }}</td>
                 <td>{{ produit.createdAt ? produit.createdAt|date('d-m-Y H:i:s') : '' }}</td>
                 <td>
                     <!-- <a class="btn btn-info" href="{{ path('admin_produit_show', {'id': produit.id}) }}">show</a> -->

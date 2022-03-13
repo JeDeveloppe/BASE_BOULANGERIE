@@ -105,7 +105,7 @@ class ProduitController extends AbstractController
                 $imageBase64 = base64_encode(file_get_contents($imageSend));
                 $produit->setImageBlob($imageBase64);
             }
-        
+       
             $entityManager->flush();
 
             return $this->redirectToRoute('admin_produit_index', [], Response::HTTP_SEE_OTHER);

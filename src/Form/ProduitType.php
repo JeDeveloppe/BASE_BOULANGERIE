@@ -35,8 +35,7 @@ class ProduitType extends AbstractType
                 ]
             ])
             ->add('prix', MoneyType::class, [
-                'label' => false,
-                'scale' => 2
+                'label' => false
             ])
             ->add('description', TextareaType::class, [
                 'label' => false

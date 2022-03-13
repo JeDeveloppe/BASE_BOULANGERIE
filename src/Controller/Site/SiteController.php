@@ -31,7 +31,8 @@ class SiteController extends AbstractController
         CategorieRepository $categorieRepository,
         ProduitRepository $produitRepository,
         Request $request,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        InfosLegalesRepository $infosLegalesRepository
         ): Response
     {
         $categories = $categorieRepository->findAll();
@@ -53,7 +54,8 @@ class SiteController extends AbstractController
             'controller_name' => 'EboutiqueController',
             'categories'      => $categories,
             'produits'        => $produits,
-            'images'          => $images
+            'images'          => $images,
+            'infosLegales' => $infosLegalesRepository->findAll()
         ]);
     }
 
@@ -63,6 +65,7 @@ class SiteController extends AbstractController
     public function eboutiqueCategorieListeProduits(
         CategorieRepository $categorieRepository,
         ProduitRepository $produitRepository,
+        InfosLegalesRepository $infosLegalesRepository,
         $slugCategorie,
         Request $request,
         PaginatorInterface $paginator): Response
@@ -87,7 +90,8 @@ class SiteController extends AbstractController
             'controller_name' => 'EboutiqueController',
             'categories'      => $categories,
             'produits'        => $produits,
-            'images'          => $images
+            'images'          => $images,
+            'infosLegales' => $infosLegalesRepository->findAll()
         ]);
     }
 
