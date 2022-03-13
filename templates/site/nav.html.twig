@@ -11,7 +11,7 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Compte</a>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Mon espace</a>
+							<a class="dropdown-item" href="{{ path('user_dashboard') }}">Mon espace</a>
 							{% if is_granted('ROLE_ADMIN') %}
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="{{ path('admin') }}">Administration</a>
