@@ -34,17 +34,17 @@ class Document
     private $token;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=5, scale=2)
      */
     private $totalHT;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=5, scale=2)
      */
     private $totalTVA;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=5, scale=2)
      */
     private $totalTTC;
 
@@ -120,36 +120,36 @@ class Document
         return $this;
     }
 
-    public function getTotalHT(): ?int
+    public function getTotalHT(): ?string
     {
         return $this->totalHT;
     }
 
-    public function setTotalHT(int $totalHT): self
+    public function setTotalHT(string $totalHT): self
     {
         $this->totalHT = $totalHT;
 
         return $this;
     }
 
-    public function getTotalTVA(): ?int
+    public function getTotalTVA(): ?string
     {
         return $this->totalTVA;
     }
 
-    public function setTotalTVA(int $totalTVA): self
+    public function setTotalTVA(string $totalTVA): self
     {
         $this->totalTVA = $totalTVA;
 
         return $this;
     }
 
-    public function getTotalTTC(): ?int
+    public function getTotalTTC(): ?string
     {
         return $this->totalTTC;
     }
 
-    public function setTotalTTC(int $totalTTC): self
+    public function setTotalTTC(string $totalTTC): self
     {
         $this->totalTTC = $totalTTC;
 

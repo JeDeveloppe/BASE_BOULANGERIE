@@ -26,8 +26,8 @@ class DocumentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
                         ->select('COALESCE(SUM(d.totalHT),0)')
                         ->where('d.createdAt BETWEEN :start AND :end')
-                        ->setParameter('start', $startDate->format('‌​Y-m-d H:i:s'))
-                        ->setParameter('end', $endDate->format('‌​Y-m-d H:i:s'))
+                        ->setParameter('start', $startDate)
+                        ->setParameter('end', $endDate)
                         ->getQuery()
                         ->getSingleScalarResult()
                         ;

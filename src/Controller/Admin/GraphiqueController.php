@@ -2,11 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use DateTimeZone;
 use Amenadiel\JpGraph\Graph\Graph;
 use Amenadiel\JpGraph\Plot\BarPlot;
+use App\Repository\DocumentRepository;
 use Amenadiel\JpGraph\Plot\GroupBarPlot;
 use Amenadiel\JpGraph\Themes\UniversalTheme;
-use App\Repository\DocumentRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,6 +47,7 @@ class GraphiqueController extends AbstractController
             array_push($totauxYear, $result);
         }
 
+   
         $totauxLastYear = [];
 
         for($m=1;$m<=12;$m++){
@@ -57,14 +59,12 @@ class GraphiqueController extends AbstractController
 
             array_push($totauxLastYear, $result);
         }
-        
-        dd($totauxYear);
 
-        $data1y=$totauxYear;
-        $data2y=$totauxLastYear;
+        $data1y=$totauxLastYear;
+        $data2y=$totauxYear;
 
         // Create the graph. These two calls are always required
-        $graph = new Graph(350,200,'auto');
+        $graph = new Graph(1050,600,'auto');
         $graph->SetScale("textlin");
 
         $theme_class=new UniversalTheme;
@@ -75,7 +75,7 @@ class GraphiqueController extends AbstractController
         $graph->SetBox(false);
 
         $graph->ygrid->SetFill(false);
-        $graph->xaxis->SetTickLabels(array('Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Décembre'));
+        $graph->xaxis->SetTickLabels(array('Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'));
         $graph->yaxis->HideLine(false);
         $graph->yaxis->HideTicks(false,false);
 
@@ -92,12 +92,14 @@ class GraphiqueController extends AbstractController
 
 
         $b1plot->SetColor("white");
-        $b1plot->SetFillColor("#cc1111");
-
+        $b1plot->SetFillColor("#11cccc");
+        $b1plot->value->Show(); 
+        
         $b2plot->SetColor("white");
-        $b2plot->SetFillColor("#11cccc");
+        $b2plot->SetFillColor("#cc1111");
+        $b2plot->value->Show(); 
 
-        $graph->title->Set("Ventes par mois");
+        $graph->title->Set("Ventes par mois HT");
 
         // Display the graph
         $graph->Stroke();

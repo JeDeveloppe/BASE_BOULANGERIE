@@ -35,7 +35,7 @@ class StripeService
                   'product_data' => [
                     'name' => $_ENV['STRIPE_NAME_BOUTIQUE_IN_CHECKOUTPAGE'],
                   ],
-                  'unit_amount' => $totaux['totalTTC'],
+                  'unit_amount' => $totaux['totalTTC'] * 100,
                 ],
                 'quantity' => 1,
               ]],

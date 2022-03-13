@@ -80,7 +80,8 @@ class PanierController extends AbstractController
         return $this->render('site/panier/index.html.twig', [
             'items'         => $panierWithData,
             'totaux'        => $totaux,
-            'response' => $response
+            'response'      => $response,
+            'infosLegales'  => $infoLegales
         ]);
     }
 
