@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\DocumentRepository;
 use App\Repository\HorairesEboutiqueRepository;
 use App\Repository\ProduitRepository;
 use DateTimeZone;
@@ -11,7 +12,9 @@ use App\Repository\ReservationRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ReservationDetailsRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class CommandesController extends AbstractController
 {
@@ -135,4 +138,32 @@ class CommandesController extends AbstractController
         return $this->redirectToRoute('admin_commandes_du_jour', ['_fragment' => $reservation->getId()], Response::HTTP_SEE_OTHER);
     }
 
+    /**
+    * @Route("/admin/commandes/recherche", name="admin_commandes_recherche")
+    */
+    public function commandeSearch(Request $request,DocumentRepository $documentRepository, UserRepository $userRepository): Response
+    {
+        $resultats = [];
+        $numCommande = $request->request->get('numCommande');
+        $nomClient = $request->request->get('nomClient');
+        $submited = $request->request->get('submited');
+
+        //si on vient de soumettre le formulaire
+        if($submited){
+            if($numCommande && !$nomClient){
+                $resultats['commande'] = true;
+                $resultats['resultats'] = $documentRepository->rechercheDocumentParNumeroCommande($numCommande);
+            }else if(!$numCommande && $nomClient){
+                $resultats['client'] = true;
+                $resultats['resultats'] = $userRepository->rechercheDocumentParNomClient($nomClient);
+            }else{
+                dd("STOP");
+            }
+        }
+ 
+
+        return $this->render('admin/commandes/recherche.html.twig', [
+            'resultats' => $resultats
+        ]);
+    }
 }

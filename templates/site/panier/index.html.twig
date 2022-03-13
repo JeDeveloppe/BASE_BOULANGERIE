@@ -51,10 +51,15 @@
         </div>
 
     <div class="row justify-content-start mt-5 bg-primary">
-
         {# si la boutique est fermée (ou jour ferié) #}
         {% if response.closed is defined %}
-            JOUR FERIE OU FERMER <p>{{ response.date | date('d-m-Y') }}</p>
+            <div class="card col-12 p-3 bg-primary text-center text-white">
+                    <p class="h4">{{ response.jourDelaSemaine }} {{ response.date | date('d-m-Y') }}</p>
+                    <p class="h5 text-danger">JOUR FERIE OU FERMER</p>
+                    <p>Les réservations seront disponibles dès demain !</p>
+                    <p>Merci de votre compréhension.</p>
+                </div>
+            </div>
         {% else %}
             {# on affiche les crénaux disponible si pas de reservation#}
             {% if response.reservations == false %}

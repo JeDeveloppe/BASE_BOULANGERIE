@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: graphiques{% endblock %}
+
+{% set year = "now"|date("Y") %}
+
+{% block body %}
+    <h1 class="col-12 text-center my-5">Graphiques</h1>
+
+    <ul class="list-unstyled">
+        <li><a class="btn btn-info" href="{{ path('admin_graphique_ventes', {'year': year }) }}" target="_blank">Évolution des ventes de l'année N</a></li>
+    </ul>
+{% endblock %}

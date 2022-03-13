@@ -1,4 +1,7 @@
 {
+    "amenadiel/jpgraph": {
+        "version": "v4.1.1"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {

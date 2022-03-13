@@ -129,7 +129,7 @@ class ReservationService
         $response = [];
 
         //si panier vide ou utilisateur non loguer ou crenau inexacte
-        if(count($panier) < 1 || empty($user)){
+        if(empty($user)){
 
             $response['label'] = "warning";
             $response['message'] = "Vous n'êtes pas identifié(e)";
@@ -138,7 +138,7 @@ class ReservationService
         }else{
 
             //on cherche la reservation pour la supprimer
-            $reservation = $this->reservationRepository->findOneBy(['token' => $token, 'user' => $user, 'statutPaiement' => '']);
+            $reservation = $this->reservationRepository->findOneBy(['token' => $token, 'user' => $user, 'statutPaiement' => 'EN_ATTENTE_DE_PAIEMENT']);
 
 
             if(!empty($reservation)){
@@ -213,9 +213,7 @@ class ReservationService
         //on recupere les horaires du jour dans la base
         $horaireEboutique = $this->horairesEboutiqueRepository->findBy(['day' => $jour]);
 
-        $start = new DateTimeImmutable( $Y.'-'.$m.'-'.$d.' '.$horaireEboutique[0]->getOuvertureMatin());
-        $end = new DateTimeImmutable( $Y.'-'.$m.'-'.$d.' '.$horaireEboutique[0]->getFermetureSoir());
-
+  
         //on vérifie si le jour est férié
         $timestamp = $date->getTimestamp();
         $isFerie = $this->calculeJourFerie($timestamp);
@@ -229,9 +227,13 @@ class ReservationService
         if($isFerie == 1 || $horaireEboutique[0]->getOuvertureMatin() == 'FERMER'){
  
             $response['closed'] = true;
+            $response['jourDelaSemaine'] = $jour;
 
         }else{
 
+            $start = new DateTimeImmutable( $Y.'-'.$m.'-'.$d.' '.$horaireEboutique[0]->getOuvertureMatin());
+            $end = new DateTimeImmutable( $Y.'-'.$m.'-'.$d.' '.$horaireEboutique[0]->getFermetureSoir());
+    
             $user = $this->security->getUser();
     
             // on cherche si l'utilisateur a une reservation non payé en cours
