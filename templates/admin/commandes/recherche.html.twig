@@ -1,0 +1,76 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: rechercher une commande
+{% endblock %}
+
+{% block body %}
+	<h1 class="col-12 text-center my-5">Rechercher une commande</h1>
+
+	<form class="col-12 d-flex flex-wrap justify-content-center align-items-center" method="POST" action="{{ path('admin_commandes_recherche') }}">
+		<div class="form-group col-4 p-4">
+			<label for="exampleInputEmail1">Numéro de commande</label>
+			<input type="text" name="numCommande" class="form-control" placeholder="2xxxxxxxx">
+		</div>
+        <div class="col-1 text-center">OU</div>
+		<div class="form-group col-4 p-4">
+			<label for="exampleInputPassword1">Nom du client</label>
+			<input type="text" name="nomClient" class="form-control" placeholder="KEVIN">
+		</div>
+        <input type="hidden" name="submited" value="true">
+        <div class="col-12 text-center mt-3">
+		    <button type="submit" class="btn btn-primary">Rechercher</button>
+        </div>
+	</form>
+
+    <div class="row justify-content-start my-5">
+        {% if resultats | length > 0 %}
+            {% if resultats.commande is defined %}
+                {% if resultats.resultats | length > 0 %}
+                    {% for resultat in resultats.resultats %}
+                        <div class="col-6 col-sm-4 p-3 h-100">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">Client: {{ resultat.user.name }}</h5>
+                                    <p class="card-text"># {{ resultat.numeroFacture }}</p>
+                                    <p class="card-text">Prix Total TTC: {{ resultat.totalTTC }}</p>
+                                    <p class="card-text">ÉTAT: {{ resultat.statut }} le {{ resultat.createdAt | date('d-m-Y') }}</p>
+                                    <p class="card-text">{{ resultat.reservation.statutReservation }}</p>        
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                PAS DE RESULTATS...
+                {% endif %}
+            {% endif %}
+            {% if resultats.client is defined %}
+                {% if resultats.resultats | length > 0 %}
+                    {% for resultat in resultats.resultats %}
+                        <div class="col-6 col-sm-4 p-3 h-100">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">Client: {{ resultat.name }}</h5>
+                                    <p class="card-text">Téléphone: {{ resultat.phone }}</p>
+                                        {% if resultat.documents | length > 0 %}
+                                            <ul class="list-unstyled">
+                                            {% for document in resultat.documents %}
+                                                <li># {{ document.numeroFacture }} - {{ document.totalTTC }} € - {{ document.reservation.statutReservation }}</li>   
+                                            {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            PAS ENCORE DE COMMANDE PAYEES...
+                                        {% endif %}
+                                        
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                PAS DE RESULTATS...
+                {% endif %}
+            {% endif %}   
+        {% else %}
+            PAS ENCORE DE RECHERCHE...
+        {% endif %}
+    </div>
+{% endblock %}

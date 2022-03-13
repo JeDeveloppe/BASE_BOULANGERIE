@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Document;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Document|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,32 @@ class DocumentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Document::class);
     }
+
+    public function ventesParMois($startDate,$endDate)
+    {
+   
+        return $this->createQueryBuilder('d')
+                        ->select('COALESCE(SUM(d.totalHT),0)')
+                        ->where('d.createdAt BETWEEN :start AND :end')
+                        ->setParameter('start', $startDate->format('‌​Y-m-d H:i:s'))
+                        ->setParameter('end', $endDate->format('‌​Y-m-d H:i:s'))
+                        ->getQuery()
+                        ->getSingleScalarResult()
+                        ;
+    }
+
+      
+    public function rechercheDocumentParNumeroCommande($numCommande)
+    {
+        return $this->createQueryBuilder('d')
+                ->where('d.numeroFacture LIKE :numero')
+                ->setParameter('numero','%'.$numCommande.'%')
+                ->getQuery()
+                ->getResult()
+        ;
+    }
+
+
 
     // /**
     //  * @return Document[] Returns an array of Document objects
