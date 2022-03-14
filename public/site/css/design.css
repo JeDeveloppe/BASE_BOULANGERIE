@@ -86,18 +86,43 @@ body {
 }
 
 #navbar {
-  width: 100%;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  top: 0;
+  opacity: 0;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
 }
 
-#sectionIndex {
+#indexSection1 {
+  position: relative;
+  height: 100vh;
   width: 100%;
-  min-height: 80vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#indexSection1 h1 {
+  position: relative;
+  color: black;
+  font-size: 8em;
+  line-height: 0.9;
+  text-align: center;
+}
+
+#indexSection1::before {
+  content: "";
   background-image: url(/images/site/presentation-boulangerie.jpg);
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.5;
 }
 /*# sourceMappingURL=design.css.map */

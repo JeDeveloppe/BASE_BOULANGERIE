@@ -19,8 +19,10 @@ class SiteController extends AbstractController
      */
     public function index(): Response
     {
+ 
+
         return $this->render('site/index.html.twig', [
-            'controller_name' => 'SiteController',
+            'controller' => 'site_controller',
         ]);
     }
 
