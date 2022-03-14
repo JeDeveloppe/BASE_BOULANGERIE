@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top py-5" id="navbar">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top py-3" id="navbar">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="/">Site</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,7 +9,7 @@
 			<ul class="navbar-nav ms-auto p-0">
 				{% if is_granted('ROLE_USER') %}
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Compte</a>
+						<a class="nav-link text-white dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Compte</a>
 						<div class="dropdown-menu">
 							<a class="dropdown-item" href="{{ path('user_dashboard') }}">Mon espace</a>
 							{% if is_granted('ROLE_ADMIN') %}
@@ -22,24 +22,21 @@
 					</li>
 				{% else %}
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+						<a class="nav-link text-white" href="{{ path('app_login') }}">Connexion</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+						<a class="nav-link text-white" href="{{ path('app_register') }}">Inscription</a>
 					</li>
 				{% endif %}
 				<li class="nav-item">
-					<a class="nav-link" href="{{ path('eboutique_accueil') }}">E-boutique</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path('personnel') }}">Notre personnel</a>
+					<a class="nav-link text-white" href="{{ path('eboutique_accueil') }}">E-boutique</a>
 				</li>
 				<li class="nav-item">
 					{% if app.session.get('panier') is defined and app.session.get('panier') | length > 0 %}
 						{% set qte = app.session.get('panier') | length %}
-						<a class="nav-link" href="{{ path('panier') }}">Panier ({{ qte }})</a>
+						<a class="nav-link text-white" href="{{ path('panier') }}">Panier ({{ qte }})</a>
 					{% else %}
-						<a class="nav-link disabled" href="#">Panier (0)</a>
+						<a class="nav-link text-white disabled" href="#">Panier (0)</a>
 					{% endif %}
 				</li>
 			</ul>

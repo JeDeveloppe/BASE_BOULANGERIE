@@ -1,5 +1,5 @@
 <!-- RETOUR EN HAUT PAGE PRESENTATION  -->
-<div class="col-12 pe-2 text-end mt-5">
+{# <div class="col-12 pe-2 text-end mt-5">
     <a href="#" class="small text-decoration-none"><i class="fas fa-caret-up"> Retour en haut</i></a>
 </div>
 <!-- START Bootstrap-Cookie-Alert -->
@@ -16,10 +16,10 @@
             Ok
         </button>
     </div>
-</div>
+</div> #}
 <!-- END Bootstrap-Cookie-Alert -->
 <!-- Footer -->
-<footer class="border-top mt-2 col-12">
+{# <footer class="border-top mt-2 col-12">
     <section class="d-flex justify-content-center justify-content-md-end border-bottom p-2 align-items-center">
         <span class="text-uppercase font-italic me-4">Suivez nous sur les réseaux:</span>
         <a class="me-3" href=""><img class="social_logo" src="{{ asset('images/reseaux_sociaux/logo-facebook.png') }}"
@@ -80,4 +80,129 @@
                 href="https://www.je-developpe.fr" target="_blank">Je-Développe</a></div>
         <div class="small">Version 1.00</div>
     </section>
-</footer>
+</footer> #}
+ <footer class="footer-area border-top pt-4 bg-primary text-white mt-5">
+            <div class="container main-footer">
+                
+                <div class="row">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="footer-logo">
+                                <div class="col-md-4">
+                                    <a href="/"><img class="img-thumbnail" src="{{ asset('/images/site/logoDuSite.png') }}" alt="logo Boulangerie" /></a>
+                                </div>       
+                            </div>
+                            <div class="footer-social mt-4">
+                                <ul class="list-unstyled">
+                                    <li><a class="text-decoration-none" href="">Nos actualités sur <i class="fa fa-facebook"></i></a></li>
+                                    <li><a class="text-decoration-none" href="">Nos actualités sur <i class="fa fa-pinterest"></i></a></li>
+                                </ul>    
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="single-widget">
+                                <h3>Horaires du magasin</h3>
+                                <p class="lock"></p>
+                                 <ul class="list-unstyled col-11 mx-auto">
+                                    <li class="d-flex justify-content-between">
+                                        <div>Lundi:</div>
+                                        <div>❌ Fermé</div>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <div>Mardi:</div>
+                                        <div>✅ 8h00 - 18h00</div>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <div>Mercredi:</div>
+                                        <div>✅ 8h00 - 18h00</div>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <div>Jeudi:</div>
+                                        <div>✅ 8h00 - 18h00</div>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <div>Vendredi:</div>
+                                        <div>✅ 8h00 - 18h00</div>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <div>Samedi:</div>
+                                        <div>✅ 8h00 - 18h00</div>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <div>Dimanche:</div>
+                                        <div>✅ 8h00 - 12h00</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="single-widget">
+                                <h3>Liens</h3>
+                                <p class="lock"></p>
+                                <ul class="list-unstyled col-11 mx-auto">
+                                    <li class="footer-section">
+                                        <a href="{{ path('eboutique_accueil') }}">Eboutique</a></li> 
+                                    <li class="footer-section">
+                                        <a href="{{ path('personnel') }}">Notre personnel</a>
+                                    </li>                                    
+                                    <li class="footer-section">
+                                        <a href="">Top Sellers</a>
+                                    </li>                                
+                                    <li class="footer-section">
+                                        <a href="{{ path('mentions-legales') }}">Mentions légale et CGU</a>
+                                    </li> 
+                                    <li class="footer-section">
+                                        <a href="{{ path('cgv') }}">CGV</a>
+                                    </li>                                                                   
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="single-widget">
+                                <h3>Contact</h3>
+                                <p class="lock"></p>
+                               
+                                <ul class="list-unstyled">
+                                    <li class="address-section">
+                                        <div class="row">
+                                            <div class="col-12">                                 
+                                            Route de Strasbourg
+                                        </div>
+                                    </li>
+                                    <li class="address-section">
+                                        <div class="row">
+                                            <div class="col-12">                                     
+                                                67 230 Benfeld
+                                            </div>
+                                        </div>
+                                     </li>
+                                    <li class="address-section">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <i class="fa fa-phone"></i>                                       
+                                                <span>03.88.00.00.00</span>
+                                            </div>
+                                        </div>
+                                     </li>
+                                    <li class="address-section">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <i class="fa fa-envelope"></i>
+                                                <span>contact@boulangerie-kevin.fr</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                </div>
+            </div>   
+            <div class="footer-bottom text-center small">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p>Copyright © <a href="https://www.je-developpe.fr" target="_blank">Je-Développe</a> 2022.</p>
+                        </div> 
+                    </div>
+                </div>    
+            </div>
+        </footer>

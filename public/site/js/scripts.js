@@ -54,11 +54,9 @@ window.addEventListener("load", function () {
 });
 
 window.onscroll = function () {
-    if (document.documentElement.scrollTop > 80) {
-        document.getElementById("navbar").classList.remove("py-5");
-        document.getElementById("navbar").classList.add("py-1");
+    if (document.documentElement.scrollTop > 10) {
+        document.getElementById("navbar").style.opacity = 1;
     } else {
-        document.getElementById("navbar").classList.add("py-5");
-        document.getElementById("navbar").classList.remove("py-1");
+        document.getElementById("navbar").style.opacity = 0;
     }
 };
