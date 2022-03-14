@@ -3,7 +3,7 @@
 {% block title %}: Espace client{% endblock %}
 
 {% block body %}
-	{{ dump() }}
+
 	{% include "site/espace_client/nav.html.twig" %}
 
 	<div class="row">
@@ -19,7 +19,12 @@
                                         <p class="card-text"># {{ document.numeroFacture }}</p>
                                         <p class="card-text">Prix Total TTC: {{ document.totalTTC }}</p>
                                         <p class="card-text">ÉTAT: {{ document.statut }} le {{ document.createdAt | date('d-m-Y') }}</p>
-                                        <p class="card-text">{{ document.reservation.statutReservation }}</p>        
+                                        <p class="card-text">{{ document.reservation.statutReservation }}</p>  
+                                        <ul>
+                                            {% for ligne in document.reservation.reservationDetails %}
+                                                <li>{{ ligne.quantity }} X {{ ligne.produit.name }} pour un total de {{ ligne.total }} € TTC</li>
+                                            {% endfor %}  
+                                        </ul>    
                                     </div>
                                 </div>
                             </div>
