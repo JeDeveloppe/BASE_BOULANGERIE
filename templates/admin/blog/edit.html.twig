@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: le blog{% endblock %}
+
+{% block body %}
+    <h1 class="col-12 text-center my-5">Édition d'un blog</h1>
+
+    {{ include('admin/blog/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    <a href="{{ path('admin_blog_index') }}">back to list</a>
+
+    {{ include('admin/blog/_delete_form.html.twig') }}
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Site;
 
+use App\Repository\BlogRepository;
 use App\Service\CallApiService;
 use App\Repository\ProduitRepository;
 use App\Repository\CategorieRepository;
@@ -17,19 +18,29 @@ class SiteController extends AbstractController
     /**
      * @Route("/", name="accueil")
      */
-    public function index(ProduitRepository $produitRepository, InfosLegalesRepository $infosLegalesRepository): Response
+    public function index(
+        ProduitRepository $produitRepository,
+        InfosLegalesRepository $infosLegalesRepository,
+        BlogRepository $blogRepository): Response
     {
  
         $produits = $produitRepository->getRandomProducts(4);
-
-        $images = [];
+        $imagesProduits = [];
         foreach ($produits as $key => $produit) {
-            $images[$key] = stream_get_contents($produit->getImageBlob());
+            $imagesProduits[$key] = stream_get_contents($produit->getImageBlob());
+        }
+
+        $blogs = $blogRepository->findBy([],['createdAt' => 'DESC'], 2);
+        $imagesBlogs = [];
+        foreach ($blogs as $key => $blog) {
+            $imagesBlogs[$key] = stream_get_contents($blog->getImageBlob());
         }
 
         return $this->render('site/index.html.twig', [
             'produits' => $produits,
-            'images'   => $images,
+            'imagesProduits'   => $imagesProduits,
+            'blogs' => $blogs,
+            'imagesBlogs'   => $imagesBlogs,
             'infosLegales' => $infosLegalesRepository->findAll()
         ]);
     }
