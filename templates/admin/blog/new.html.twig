@@ -1,0 +1,11 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: les catégories{% endblock %}
+
+{% block body %}
+    <h1 class="col-12 text-center my-5">Nouveau blog</h1>
+
+    {{ include('admin/blog/_form.html.twig') }}
+
+    <a href="{{ path('admin_blog_index') }}">back to list</a>
+{% endblock %}

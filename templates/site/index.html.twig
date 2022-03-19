@@ -8,14 +8,14 @@
         <h1>Boulangerie</h1>
     </div>
 
-   <div class="row px-lg-5 mt-5">
+   <div class="row px-lg-5 my-5">
         {% for key, produit in produits %}
             <div class="col-6 col-sm-4 col-lg-3 h-100 mb-2">
                 <div class="card col-11 mx-auto bg-primary py-3">
                     <div class="card-image col-10 mx-auto bg-success">
                         <div class="div-img-eboutique-card">
-                            {% if images[key] | length > 0 %}
-                                <img src="data:image/jpeg;base64,{{ images[key] }}"/>
+                            {% if imagesProduits[key] | length > 0 %}
+                                <img src="data:image/jpeg;base64,{{ imagesProduits[key] }}"/>
                             {% else %}
                                 <img src="{{ asset('images/site/default-product-image.png') }}" alt="Image à venir...">
                             {% endif %}
@@ -26,6 +26,28 @@
         {% endfor %}
         <div class="col-12 text-center mt-4">
             <a class="btn btn-info" href="{{ path('eboutique_accueil') }}">Voir la Eboutique</a>
+        </div>
+    </div>
+
+
+   <div class="row mt-5 justify-content-center my-5">
+        {% for key, blog in blogs %}
+            <div class="col-12 col-sm-6 col-md-4 h-100 mb-2">
+                <div class="card d-flex flex-wrap flex-row align-items-center">
+                    <div class="col-6 text-center">
+                        <p class="text-muted h2">{{ blog.createdAt | date('F') }}</p>
+                        <p class="small">{{ blog.createdAt | date('d-m-Y') }}</p>
+                    </div>
+                    <div class="col-6">
+                        <p>{{ blog.titre }}</p>
+                        <p>{{ blog.description }}</p>
+                    </div>
+                    
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col-12 text-center mt-4">
+            <a class="btn btn-info" href="{{ path('eboutique_accueil') }}">Voir le blog</a>
         </div>
     </div>
    
