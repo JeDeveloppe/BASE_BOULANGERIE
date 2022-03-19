@@ -2,6 +2,9 @@
     "amenadiel/jpgraph": {
         "version": "v4.1.1"
     },
+    "beberlei/doctrineextensions": {
+        "version": "v1.3.0"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {

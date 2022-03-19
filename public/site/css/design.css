@@ -86,9 +86,14 @@ body {
 }
 
 #navbar {
-  opacity: 0;
   -webkit-transition: all 0.4s;
   transition: all 0.4s;
+}
+
+.navbarActions {
+  padding: 2% 0%;
+  -webkit-box-shadow: inset 0 2em 1em -10px gold;
+          box-shadow: inset 0 2em 1em -10px gold;
 }
 
 #indexSection1 {

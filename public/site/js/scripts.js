@@ -55,8 +55,8 @@ window.addEventListener("load", function () {
 
 window.onscroll = function () {
     if (document.documentElement.scrollTop > 10) {
-        document.getElementById("navbar").style.opacity = 1;
+        document.getElementById("navbar").classList.remove("navbarActions");
     } else {
-        document.getElementById("navbar").style.opacity = 0;
+        document.getElementById("navbar").classList.add("navbarActions");
     }
 };

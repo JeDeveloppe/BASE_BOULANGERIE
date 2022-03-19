@@ -17,12 +17,20 @@ class SiteController extends AbstractController
     /**
      * @Route("/", name="accueil")
      */
-    public function index(): Response
+    public function index(ProduitRepository $produitRepository, InfosLegalesRepository $infosLegalesRepository): Response
     {
  
+        $produits = $produitRepository->getRandomProducts(4);
+
+        $images = [];
+        foreach ($produits as $key => $produit) {
+            $images[$key] = stream_get_contents($produit->getImageBlob());
+        }
 
         return $this->render('site/index.html.twig', [
-            'controller' => 'site_controller',
+            'produits' => $produits,
+            'images'   => $images,
+            'infosLegales' => $infosLegalesRepository->findAll()
         ]);
     }
 

@@ -19,6 +19,14 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
+    public function getRandomProducts($number)
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('RAND()')
+            ->setMaxResults($number)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */

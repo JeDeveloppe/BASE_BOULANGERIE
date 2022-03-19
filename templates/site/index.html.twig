@@ -3,8 +3,30 @@
 {% block title %}: Accueil{% endblock %}
 
 {% block body %}
-    <div id="indexSection1" class="mt-n5">
+
+    <div id="indexSection1" class="row mt-5">
         <h1>Boulangerie</h1>
+    </div>
+
+   <div class="row px-lg-5 mt-5">
+        {% for key, produit in produits %}
+            <div class="col-6 col-sm-4 col-lg-3 h-100 mb-2">
+                <div class="card col-11 mx-auto bg-primary py-3">
+                    <div class="card-image col-10 mx-auto bg-success">
+                        <div class="div-img-eboutique-card">
+                            {% if images[key] | length > 0 %}
+                                <img src="data:image/jpeg;base64,{{ images[key] }}"/>
+                            {% else %}
+                                <img src="{{ asset('images/site/default-product-image.png') }}" alt="Image à venir...">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col-12 text-center mt-4">
+            <a class="btn btn-info" href="{{ path('eboutique_accueil') }}">Voir la Eboutique</a>
+        </div>
     </div>
    
 {% endblock %}
