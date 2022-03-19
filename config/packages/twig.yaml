@@ -1,6 +1,22 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
 
+    globals:
+        monthsTranslate : {
+            'January':'Janvier',
+            'February':'Février',
+            'March':'Mars',
+            'April':'Avril',
+            'May':'Mai',
+            'June':'Juin',
+            'July':'Juillet',
+            'August':'Aout',
+            'September':'Septembre',
+            'October':'Octobre',
+            'November':'Novembre',
+            'December':'Décembre'
+        } 
+
 when@test:
     twig:
         strict_variables: true

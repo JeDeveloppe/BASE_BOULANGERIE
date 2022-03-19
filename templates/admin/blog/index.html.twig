@@ -12,18 +12,18 @@
             <tr>
                 <th>Titre</th>
                 <th>Description</th>
-                <th>Mise en ligne le</th>
+                <th>Chronologie</th>
                 <th>ImageBlob</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-        {% for blog in blogs %}
+        {% for key, blog in blogs %}
             <tr>
                 <td>{{ blog.titre }}</td>
                 <td>{{ blog.description }}</td>
-                <td>{{ blog.createdAt ? blog.createdAt|date('d-m-Y H:i:s') : '' }}</td>
-                <td>{{ blog.imageBlob }}</td>
+                <td>{{ blog.createdAt ? blog.createdAt|date('d-m-Y') : '' }}</td>
+                <td><img class="img-admin-liste" src="data:image/png;base64,{{ images[key] }}"/></td>
                 <td>
                     <a class="btn btn-warning" href="{{ path('admin_blog_edit', {'id': blog.id}) }}">Éditer</a>
                 </td>

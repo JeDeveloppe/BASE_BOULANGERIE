@@ -89,7 +89,7 @@ body {
   box-shadow: inset 0 2em 1em -10px gold;
 }
 
-#indexSection1{
+#backgroundIndex{
   position: relative; 
   height: 100vh;
   width: 100%;
@@ -106,11 +106,13 @@ body {
   }
 }
 
-#indexSection1::before {    
+#backgroundIndex::before {    
   content: "";
   background-image: url(/images/site/presentation-boulangerie.jpg);
   background-size: cover;
   position: absolute;
+  text-align: center;
+  background-position: center;
   top: 0px;
   right: 0px;
   bottom: 0px;

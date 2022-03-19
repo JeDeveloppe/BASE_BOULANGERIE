@@ -22,8 +22,16 @@ class BlogController extends AbstractController
      */
     public function index(BlogRepository $blogRepository): Response
     {
+        $blogs = $blogRepository->findBy([], ['createdAt' => 'DESC']);
+        //on va stocker les images
+        $images = [];
+        foreach ($blogs as $key => $blog) {
+            $images[$key] = stream_get_contents($blog->getImageBlob());
+        }
+
         return $this->render('admin/blog/index.html.twig', [
-            'blogs' => $blogRepository->findBy([], ['createdAt' => 'DESC']),
+            'blogs'  => $blogs,
+            'images' => $images
         ]);
     }
 
@@ -50,8 +58,7 @@ class BlogController extends AbstractController
                 $imageBase64 = base64_encode(file_get_contents($imageSend));
             }
 
-            $blog->setImageBlob($imageBase64)
-                    ->setCreatedAt(new DateTimeImmutable());
+            $blog->setImageBlob($imageBase64);
 
             $entityManager->persist($blog);
             $entityManager->flush();
