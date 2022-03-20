@@ -1,0 +1,31 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}: détails des commandes du jour{% endblock %}
+
+{% block body %}
+
+    <h1 class="col-12 text-center my-5">Détails des commandes du:<br/> {{ date | date('d-m-Y')}}</h1>
+
+        <div class="col-6 mx-auto">
+            <table class="table text-center align-middle">
+                <thead>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                </thead>
+                <tbody>
+                    {% if listes | length > 0 %}
+                        {% for liste in listes %}
+                            <tr>
+                                <td>{{ liste.produit.name }}</td>
+                                <td>{{ liste.quantity }} </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2">Pas de commandes pour ce jour...   :( </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+ {% endblock %}

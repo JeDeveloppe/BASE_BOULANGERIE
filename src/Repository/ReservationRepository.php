@@ -61,7 +61,6 @@ class ReservationRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    
 
     /*
     public function findOneBySomeField($value): ?Reservation

@@ -28,9 +28,91 @@ class CommandesController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("admin/commandes/detail-preparations", name="admin_commandes_details_preparations")
+     */
+    public function commandesDetailsPreparations(
+        ReservationRepository $reservationRepository,
+        ProduitRepository $produitRepository,
+        HorairesEboutiqueRepository $horairesEboutiqueRepository): Response
+    {
+
+        $date = new DateTimeImmutable('now', new DateTimeZone('Europe/Paris'));
+
+        //on recupere les parametres de la date
+        $d = $date->format('d');
+        $m = $date->format('m');
+        $Y = $date->format('Y');
+
+        //on recupere le "nom du jour"
+        $day = $date->format('l');
+        //transforme anglais -> francais
+        switch($day){
+            case 'Monday':
+                $jour = 'LUNDI';
+                break;
+            case 'Tuesday':
+                $jour = 'MARDI';
+                break;
+            case 'Wednesday':
+                $jour = 'MERCREDI';
+                break;
+            case 'Thursday':
+                $jour = 'JEUDI';
+                break;
+            case 'Friday':
+                $jour = 'VENDREDI';
+                break;
+            case 'Saturday':
+                $jour = 'SAMEDI';
+                break;
+            case 'Sunday':
+                $jour = 'DIMANCHE';
+                break;
+        }
+
+        //on recupere les horaires du jour dans la base
+        $horaireEboutique = $horairesEboutiqueRepository->findBy(['day' => $jour]);
+
+        $start = new DateTimeImmutable( $Y.'-'.$m.'-'.$d.' '.$horaireEboutique[0]->getOuvertureMatin());
+        $end = new DateTimeImmutable( $Y.'-'.$m.'-'.$d.' '.$horaireEboutique[0]->getFermetureSoir());
+        
+        //on cherche les reservations pour la journée
+        $tableauDesReservations = $reservationRepository->findReservations($start,$end);
+
+        $details = [];
+
+        foreach($tableauDesReservations as $reservation){
+            
+            $produits = $reservation->getReservationDetails();
+  
+                foreach($produits as $produit){
+ 
+                    if(isset($details[$produit->getProduit()->getId()])){
+                        $details[$produit->getProduit()->getId()] += $produit->getQuantity();
+                    }else{
+                        $details[$produit->getProduit()->getId()] = $produit->getQuantity();
+                    }
+                }
+        }
+
+        $listes = [];
+
+        foreach($details as $id => $quantity){
+            $listes[] = [
+                'produit'  => $produitRepository->find($id),
+                'quantity' => $quantity
+            ];
+        }
+
+        return $this->render('admin/commandes/preparations.html.twig', [
+            'listes' => $listes,
+            'date'   => $date
+        ]);
+    }
 
     /**
-     * @Route("/admin/commandes/du-jour/", name="admin_commandes_du_jour")
+     * @Route("/admin/commandes/a-emportees/", name="admin_commandes_du_jour")
      */
     public function listeDesCommandesClientDuJour(
         ReservationRepository $reservationRepository,
@@ -103,11 +185,10 @@ class CommandesController extends AbstractController
     }
 
     /**
-     * @Route("/admin/commandes/du-jour/statut-paiement/{id}/{token}", name="admin_changement_statut_paiement")
+     * @Route("/admin/commandes/a-emportees/statut-paiement/{id}/{token}", name="admin_changement_statut_paiement")
      */
     public function changementStatutReservation(
         ReservationRepository $reservationRepository,
-        ReservationDetailsRepository $reservationDetailsRepository,
         EntityManagerInterface $em,
         $id,
         $token
