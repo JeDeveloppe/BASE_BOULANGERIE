@@ -1,6 +1,17 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
+<div class="row">
+    <div class="col-6 mx-auto text-center">
+        {{ form_start(form) }}
+            {{ form_widget(form.name) }}
 
+            {% if new == true %}
+                {{ form_widget(form.slug, { 'attr': {'disabled': true } }) }}
+            {% else %}
+                {{ form_widget(form.slug) }}
+            {% endif %}
 
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+            <div class="col-12 text-center mt-5">
+                <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>

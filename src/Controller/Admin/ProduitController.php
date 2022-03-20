@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/admin/produit", name="admin_")
@@ -44,7 +45,7 @@ class ProduitController extends AbstractController
     /**
      * @Route("/new", name="produit_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
@@ -65,7 +66,8 @@ class ProduitController extends AbstractController
             }
 
             $produit->setImageBlob($imageBase64)
-                    ->setCreatedAt(new DateTimeImmutable());
+                    ->setCreatedAt(new DateTimeImmutable())
+                    ->setSlug($slugger->slug($produit->getSlug()));
      
             $entityManager->persist($produit);
             $entityManager->flush();
@@ -93,7 +95,10 @@ class ProduitController extends AbstractController
     /**
      * @Route("/{id}/edit", name="produit_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager, ProduitRepository $produitRepository): Response
+    public function edit(Request $request,
+            Produit $produit,
+            EntityManagerInterface $entityManager,
+            SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
@@ -106,6 +111,8 @@ class ProduitController extends AbstractController
                 $produit->setImageBlob($imageBase64);
             }
        
+            $produit->setSlug($slugger->slug($produit->getSlug()));
+                  
             $entityManager->flush();
 
             return $this->redirectToRoute('admin_produit_index', [], Response::HTTP_SEE_OTHER);

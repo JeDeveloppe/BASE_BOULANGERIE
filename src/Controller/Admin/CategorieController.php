@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/admin/categorie", name="admin_")
@@ -52,7 +53,7 @@ class CategorieController extends AbstractController
     /**
      * @Route("/new", name="categorie_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $categorie = new Categorie();
         $form = $this->createForm(CategorieType::class, $categorie);
@@ -60,7 +61,9 @@ class CategorieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $categorie->setCreatedAt(new \DateTimeImmutable());
+            $categorie->setName(strtoupper($categorie->getName()))
+                      ->setCreatedAt(new \DateTimeImmutable())
+                      ->setSlug($slugger->slug($categorie->getName()));
             $entityManager->persist($categorie);
             $entityManager->flush();
 
@@ -70,6 +73,7 @@ class CategorieController extends AbstractController
         return $this->renderForm('admin/categorie/new.html.twig', [
             'categorie' => $categorie,
             'form' => $form,
+            'new' => true
         ]);
     }
 
@@ -86,12 +90,15 @@ class CategorieController extends AbstractController
     /**
      * @Route("/{id}/edit", name="categorie_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Categorie $categorie, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(CategorieType::class, $categorie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $categorie->setName(strtoupper($categorie->getName()))
+                      ->setSlug($slugger->slug($categorie->getSlug()));;
+
             $entityManager->flush();
 
             return $this->redirectToRoute('admin_categorie_index', [], Response::HTTP_SEE_OTHER);
@@ -100,6 +107,7 @@ class CategorieController extends AbstractController
         return $this->renderForm('admin/categorie/edit.html.twig', [
             'categorie' => $categorie,
             'form' => $form,
+            'new' => false
         ]);
     }
 
